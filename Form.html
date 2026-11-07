@@ -1,0 +1,1033 @@
+<!-- Developed by Rameez Scripts | https://www.youtube.com/@rameezimdad -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Multi-Step Form</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    :root { --navy-primary: #001f3f; --navy-dark: #001529; --navy-light: #003366; --navy-accent: #0074D9; --navy-hover: #002a52; --success: #34a853; --warning: #fbbc04; --danger: #ea4335; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { -webkit-text-size-adjust: 100%; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f5f5f5; -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+    input, select, textarea { font-size: 16px !important; touch-action: manipulation; }
+
+    /* Form skeleton */
+    .skel-steps { display: flex; align-items: center; margin-bottom: 32px; }
+    .skel-circle { width: 36px; height: 36px; border-radius: 50%; flex-shrink: 0; }
+    .skel-connector { flex: 1; height: 10px; border-radius: 3px; margin-bottom: 0; min-width: 16px; }
+    .skel-lbl { height: 10px; width: 50px; border-radius: 3px; margin-top: 6px; }
+    .skel-step-item { display: flex; flex-direction: column; align-items: center; }
+    .skel-field { margin-bottom: 20px; }
+    .skel-label { height: 14px; width: 38%; border-radius: 3px; margin-bottom: 8px; }
+    .skel-input { height: 50px; border-radius: 3px; }
+
+    /* Buttons */
+    .btn { padding: 11px 22px; border: none; border-radius: 3px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.25s; display: inline-flex; align-items: center; justify-content: center; gap: 8px; touch-action: manipulation; }
+    .btn-primary { background: var(--navy-primary); color: white; }
+    .btn-primary:hover { background: var(--navy-hover); transform: translateY(-1px); }
+    .btn-success { background: var(--success); color: white; }
+    .btn-success:hover { background: #2d9248; transform: translateY(-1px); }
+    .btn-secondary { background: #6c757d; color: white; }
+    .btn-secondary:hover { background: #5a6268; }
+    .btn:disabled { background: #ccc !important; cursor: not-allowed; transform: none !important; }
+
+    /* Forms */
+    .form-group { margin-bottom: 20px; }
+    .form-group label { display: block; margin-bottom: 8px; color: #444; font-weight: 600; font-size: 14px; }
+    .form-group input, .form-group textarea { width: 100%; padding: 13px 16px; border: 2px solid #e0e0e0; border-radius: 3px; font-size: 16px !important; transition: border-color 0.2s, box-shadow 0.2s; font-family: inherit; background: white; }
+    .form-group input:focus, .form-group textarea:focus { outline: none; border-color: var(--navy-accent); box-shadow: 0 0 0 3px rgba(0,116,217,0.12); }
+    .form-group textarea { resize: vertical; min-height: 100px; }
+    .field-error { font-size: 12px; color: var(--danger); margin-top: 5px; display: flex; align-items: center; gap: 4px; }
+    .input-error { border-color: var(--danger) !important; }
+    .dup-check { font-size: 12px; margin-top: 5px; display: flex; align-items: center; gap: 5px; }
+    .dup-check.checking { color: #999; }
+    .dup-check.duplicate { color: var(--danger); }
+    .dup-check.ok { color: var(--success); }
+    .dep-disabled { padding: 13px 16px; border: 2px solid #e8e8e8; border-radius: 3px; color: #bbb; font-size: 14px; background: #fafafa; cursor: not-allowed; }
+
+    /* Searchable Dropdown */
+    .searchable-dropdown { position: relative; width: 100%; }
+    .searchable-dropdown-input { width: 100%; padding: 13px 36px 13px 16px; border: 2px solid #e0e0e0; border-radius: 3px; font-size: 16px !important; transition: all 0.2s; font-family: inherit; background: white; cursor: pointer; touch-action: manipulation; }
+    .searchable-dropdown-input:focus { outline: none; border-color: var(--navy-accent); box-shadow: 0 0 0 3px rgba(0,116,217,0.12); }
+    .searchable-dropdown-input.input-error { border-color: var(--danger) !important; }
+    .searchable-dropdown-arrow { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); pointer-events: none; color: #888; font-size: 12px; transition: transform 0.25s; }
+    .searchable-dropdown-arrow.open { transform: translateY(-50%) rotate(180deg); }
+    .searchable-dropdown-list { position: absolute; top: 100%; left: 0; right: 0; background: white; border: 2px solid var(--navy-accent); border-top: none; border-radius: 0 0 3px 3px; max-height: 230px; overflow-y: auto; z-index: 200; box-shadow: 0 6px 16px rgba(0,0,0,0.12); }
+    .searchable-dropdown-item { padding: 10px 14px; cursor: pointer; font-size: 14px; transition: background 0.15s; border-bottom: 1px solid #f5f5f5; }
+    .searchable-dropdown-item:hover { background: rgba(0,116,217,0.08); }
+    .searchable-dropdown-item.selected { background: var(--navy-primary); color: white; }
+    .searchable-dropdown-item.no-results { color: #aaa; font-style: italic; cursor: default; }
+    .searchable-dropdown-item.no-results:hover { background: transparent; }
+
+    /* Radio group */
+    .radio-group, .checkbox-group { display: flex; flex-direction: column; gap: 8px; }
+    .radio-item, .checkbox-item { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border: 2px solid #e0e0e0; border-radius: 3px; cursor: pointer; transition: border-color 0.2s, background 0.2s; }
+    .radio-item:hover, .checkbox-item:hover { border-color: var(--navy-accent); background: rgba(0,116,217,0.03); }
+    .radio-item.selected { border-color: var(--navy-accent); background: rgba(0,116,217,0.07); }
+    .checkbox-item.checked { border-color: var(--navy-accent); background: rgba(0,116,217,0.07); }
+    .radio-item input, .checkbox-item input { accent-color: var(--navy-accent); width: 17px; height: 17px; flex-shrink: 0; cursor: pointer; }
+    .radio-item label, .checkbox-item label { cursor: pointer; font-size: 14px; color: #333; margin: 0; flex: 1; font-weight: 500; }
+
+    /* Skeleton */
+    .skeleton { background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%); background-size: 200% 100%; animation: sk 1.5s ease-in-out infinite; border-radius: 3px; }
+    @keyframes sk { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+
+    /* Page layout */
+    .page-wrapper { min-height: 100vh; background: linear-gradient(160deg, #001529 0%, #001f3f 50%, #003366 100%); display: flex; flex-direction: column; }
+    .top-nav { background: rgba(0,0,0,0.25); padding: 14px 24px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.08); flex-shrink: 0; }
+    .nav-brand { display: flex; align-items: center; gap: 12px; color: white; }
+    .nav-brand img { width: 38px; height: 38px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.3); object-fit: cover; }
+    .nav-brand h1 { font-size: 17px; font-weight: 700; }
+    .nav-tabs { display: flex; gap: 4px; }
+    .nav-tab { background: transparent; border: none; color: rgba(255,255,255,0.65); padding: 8px 16px; border-radius: 3px; cursor: pointer; font-size: 13px; font-weight: 600; transition: all 0.2s; display: flex; align-items: center; gap: 6px; touch-action: manipulation; }
+    .nav-tab:hover { background: rgba(255,255,255,0.1); color: white; }
+    .nav-tab.active { background: var(--navy-accent); color: white; }
+    .page-content { flex: 1; display: flex; flex-direction: column; overflow-y: auto; }
+
+    /* Form card */
+    .form-outer { flex: 1; display: flex; align-items: flex-start; justify-content: center; padding: 36px 20px 60px; }
+    .form-card { background: white; border-radius: 6px; padding: 40px; box-shadow: 0 12px 40px rgba(0,0,0,0.3); width: 100%; max-width: 680px; }
+
+    /* Step indicator */
+    .step-indicator { display: flex; align-items: center; margin-bottom: 32px; }
+    .step-item { display: flex; flex-direction: column; align-items: center; }
+    .step-circle { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; transition: all 0.3s; flex-shrink: 0; }
+    .step-circle.pending { background: #e9ecef; color: #aaa; }
+    .step-circle.active { background: var(--navy-accent); color: white; box-shadow: 0 0 0 4px rgba(0,116,217,0.2); }
+    .step-circle.completed { background: var(--success); color: white; }
+    .step-lbl { font-size: 10px; margin-top: 6px; text-align: center; max-width: 72px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #aaa; }
+    .step-lbl.active { color: var(--navy-accent); }
+    .step-lbl.completed { color: var(--success); }
+    .step-connector { flex: 1; height: 2px; background: #e9ecef; margin-bottom: 22px; min-width: 16px; transition: background 0.3s; }
+    .step-connector.completed { background: var(--success); }
+
+    /* Step content */
+    .step-title { font-size: 22px; font-weight: 700; color: var(--navy-primary); margin-bottom: 4px; }
+    .step-sub { font-size: 13px; color: #999; margin-bottom: 28px; }
+    .form-nav { display: flex; justify-content: space-between; align-items: center; margin-top: 30px; padding-top: 24px; border-top: 1px solid #f0f0f0; }
+
+    /* Review */
+    .review-header { font-size: 22px; font-weight: 700; color: var(--navy-primary); margin-bottom: 6px; }
+    .review-sub { font-size: 13px; color: #999; margin-bottom: 28px; }
+    .review-section { margin-bottom: 22px; }
+    .review-section-title { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--navy-accent); font-weight: 700; margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
+    .review-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .review-item { background: #f8f9fa; border-radius: 3px; padding: 12px 14px; border-left: 3px solid var(--navy-primary); }
+    .review-item-lbl { font-size: 11px; color: #999; text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 3px; }
+    .review-item-val { font-size: 14px; color: #222; font-weight: 600; word-break: break-word; }
+    .review-item-empty { color: #ccc; font-style: italic; font-weight: 400; }
+
+    /* Success */
+    .success-screen { text-align: center; padding: 40px 20px; }
+    .success-icon { width: 76px; height: 76px; background: var(--success); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 22px; animation: popIn 0.4s ease; }
+    .success-icon i { font-size: 34px; color: white; }
+    @keyframes popIn { 0% { transform: scale(0); opacity: 0; } 80% { transform: scale(1.1); } 100% { transform: scale(1); opacity: 1; } }
+    .success-title { font-size: 26px; font-weight: 700; color: #222; margin-bottom: 8px; }
+    .success-msg { font-size: 15px; color: #666; margin-bottom: 16px; }
+    .success-id { display: inline-block; background: #f8f9fa; border: 1px solid #e0e0e0; border-radius: 3px; padding: 7px 18px; font-size: 13px; color: #888; margin-bottom: 28px; }
+
+    /* About */
+    .about-outer { flex: 1; padding: 28px 20px 60px; }
+    .about-section { max-width: 860px; margin: 0 auto; }
+    .about-header { display: flex; align-items: center; gap: 20px; padding: 24px; background: linear-gradient(135deg, var(--navy-primary) 0%, var(--navy-light) 100%); border-radius: 6px; color: white; margin-bottom: 20px; }
+    .about-logo img { width: 72px; height: 72px; border-radius: 50%; border: 3px solid rgba(255,255,255,0.3); object-fit: cover; }
+    .about-title h1 { font-size: 22px; margin-bottom: 6px; font-weight: 700; }
+    .about-dev { font-size: 13px; opacity: 0.85; }
+    .about-card { background: white; border-radius: 4px; padding: 24px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); border-left: 4px solid var(--navy-primary); }
+    .about-card h2 { color: var(--navy-primary); font-size: 18px; margin-bottom: 14px; display: flex; align-items: center; gap: 10px; font-weight: 700; }
+    .about-card p { color: #555; line-height: 1.7; font-size: 14px; }
+    .about-features { list-style: none; display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 4px; }
+    .about-features li { padding: 12px 14px; background: #f8f9fa; border-radius: 4px; color: #333; font-size: 13px; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+    .about-features li i { color: var(--navy-primary); font-size: 14px; flex-shrink: 0; }
+    .about-table-wrapper { overflow-x: auto; margin: 10px 0; }
+    .about-roles-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    .about-roles-table th, .about-roles-table td { padding: 10px 14px; text-align: left; border: 1px solid #e0e0e0; }
+    .about-roles-table th { background: var(--navy-primary); color: white; font-weight: 600; }
+    .about-roles-table td:first-child { font-weight: 600; }
+    .role-badge { display: inline-block; padding: 3px 10px; border-radius: 3px; font-size: 12px; font-weight: 700; }
+    .role-admin { background: #d4edda; color: #155724; }
+    .role-sf { background: #cce5ff; color: #004085; }
+    .developer-info { display: flex; gap: 20px; align-items: flex-start; }
+    .developer-avatar { width: 90px; height: 90px; border-radius: 50%; object-fit: cover; border: 3px solid var(--navy-primary); flex-shrink: 0; }
+    .developer-details h3 { color: var(--navy-primary); font-size: 18px; margin-bottom: 4px; }
+    .developer-brand { color: var(--navy-accent); font-weight: 700; font-size: 13px; margin-bottom: 10px; }
+    .developer-details p { color: #555; font-size: 14px; line-height: 1.6; margin-bottom: 14px; }
+    .developer-links { display: flex; gap: 10px; flex-wrap: wrap; }
+    .dev-link { display: inline-flex; align-items: center; gap: 7px; padding: 9px 16px; border-radius: 3px; text-decoration: none; font-weight: 700; font-size: 13px; transition: all 0.25s; }
+    .dev-link.whatsapp { background: #25D366; color: white; }
+    .dev-link.whatsapp:hover { background: #1ebe5d; transform: translateY(-2px); }
+    .dev-link.youtube { background: #FF0000; color: white; }
+    .dev-link.youtube:hover { background: #cc0000; transform: translateY(-2px); }
+    .about-footer { text-align: center; padding: 20px; color: rgba(255,255,255,0.5); font-size: 13px; }
+    .about-footer p { margin-bottom: 4px; }
+    .about-card.about-developer { border-left-color: var(--navy-accent); }
+
+    /* File / Image upload (DaisyUI-style) */
+    .file-input { width: 100%; height: 52px; border: 2px solid #e0e0e0; border-radius: 3px; background: white; cursor: pointer; font-size: 16px !important; transition: border-color .2s, box-shadow .2s; display: block; padding: 0; }
+    .file-input:focus { outline: none; border-color: var(--navy-accent); box-shadow: 0 0 0 3px rgba(0,116,217,0.12); }
+    .file-input::file-selector-button { height: 100%; padding: 0 16px; background: var(--navy-primary); color: white; border: none; border-right: 2px solid #e0e0e0; cursor: pointer; font-size: 13px; font-weight: 600; margin-right: 12px; transition: background .2s; }
+    .file-input::file-selector-button:hover { background: var(--navy-hover); }
+    .file-input.input-error { border-color: var(--danger) !important; }
+    .img-preview { margin-top: 10px; position: relative; display: inline-block; }
+    .img-preview img { width: 160px; height: 110px; object-fit: cover; border-radius: 3px; border: 2px solid #e0e0e0; display: block; }
+    .img-preview-remove { position: absolute; top: -8px; right: -8px; width: 22px; height: 22px; background: var(--danger); color: white; border: none; border-radius: 50%; cursor: pointer; font-size: 11px; display: flex; align-items: center; justify-content: center; line-height: 1; }
+    .file-badge { display: inline-flex; align-items: center; gap: 8px; margin-top: 10px; padding: 7px 14px; background: #f0f7ff; border: 1px solid #cce5ff; border-radius: 3px; font-size: 13px; color: #004085; max-width: 100%; }
+    .file-badge span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .file-badge-remove { background: none; border: none; color: #888; cursor: pointer; padding: 0; font-size: 13px; flex-shrink: 0; }
+    .file-badge-remove:hover { color: var(--danger); }
+    .upload-hint { font-size: 12px; color: #aaa; margin-top: 6px; }
+    .review-img-thumb { width: 80px; height: 56px; object-fit: cover; border-radius: 3px; border: 1px solid #e0e0e0; display: block; margin-top: 4px; }
+    .review-file-link { font-size: 13px; color: var(--navy-accent); text-decoration: none; display: inline-flex; align-items: center; gap: 5px; margin-top: 4px; }
+    .review-file-link:hover { text-decoration: underline; }
+    /* Init error */
+    .init-error { text-align: center; padding: 60px 20px; color: white; }
+    .init-error i { font-size: 48px; opacity: 0.5; margin-bottom: 16px; }
+    .init-error p { font-size: 16px; opacity: 0.7; }
+
+    /* Tablet */
+    @media (max-width: 768px) {
+      .form-card { max-width: 100%; }
+      .about-section { max-width: 100%; }
+      .about-features { grid-template-columns: 1fr 1fr; }
+      .review-grid { grid-template-columns: 1fr; }
+    }
+
+    /* Mobile */
+    @media (max-width: 600px) {
+      /* nav */
+      .top-nav { padding: 10px 14px; }
+      .nav-brand img { width: 32px; height: 32px; }
+      .nav-brand h1 { font-size: 14px; }
+      .nav-tab { padding: 8px 10px; font-size: 12px; }
+      .nav-tab span { display: none; }
+
+      /* form card */
+      .form-outer { padding: 14px 10px 40px; align-items: stretch; }
+      .form-card { padding: 22px 14px; border-radius: 4px; box-shadow: 0 6px 20px rgba(0,0,0,0.25); }
+
+      /* step indicator */
+      .step-indicator { margin-bottom: 22px; }
+      .step-circle { width: 30px; height: 30px; font-size: 11px; }
+      .step-connector { min-width: 6px; }
+      .step-lbl { display: none; }
+      .skel-steps { margin-bottom: 22px; }
+      .skel-circle { width: 30px; height: 30px; }
+
+      /* step content */
+      .step-title { font-size: 18px; }
+      .step-sub { font-size: 12px; margin-bottom: 20px; }
+
+      /* form fields */
+      .form-group { margin-bottom: 16px; }
+      .radio-item, .checkbox-item { padding: 10px 12px; }
+
+      /* form nav buttons */
+      .form-nav { gap: 10px; margin-top: 22px; padding-top: 18px; }
+      .form-nav .btn { flex: 1; padding: 13px 10px; font-size: 14px; }
+
+      /* review */
+      .review-header { font-size: 18px; }
+      .review-grid { grid-template-columns: 1fr; }
+
+      /* success */
+      .success-screen { padding: 28px 10px; }
+      .success-title { font-size: 20px; }
+      .success-icon { width: 64px; height: 64px; }
+      .success-icon i { font-size: 28px; }
+
+      /* about */
+      .about-outer { padding: 12px 10px 20px; }
+      .about-card { padding: 16px; }
+      .about-header { flex-direction: column; text-align: center; padding: 18px 14px; gap: 10px; }
+      .about-title h1 { font-size: 18px; }
+      .about-features { grid-template-columns: 1fr; }
+      .developer-info { flex-direction: column; align-items: center; text-align: center; }
+      .developer-avatar { width: 72px; height: 72px; }
+      .developer-links { justify-content: center; }
+
+      /* file upload */
+      .img-preview img { width: 120px; height: 82px; }
+      .file-badge { max-width: 100%; }
+    }
+
+    /* Very small phones */
+    @media (max-width: 360px) {
+      .nav-brand h1 { display: none; }
+      .form-card { padding: 18px 12px; }
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script>
+    /** serverCall — wraps google.script.run in a promise */
+    const serverCall = (fn, ...args) => new Promise((resolve, reject) => {
+      google.script.run.withSuccessHandler(resolve).withFailureHandler(reject)[fn](...args);
+    });
+
+    const LOGO = 'JCILOGO.png';
+  </script>
+
+  <script type="text/babel">
+    const { useState, useEffect, useRef, useMemo } = React;
+
+    /* ─── SearchableDropdown ─── */
+    function SearchableDropdown({ options, value, onChange, placeholder = 'Select...', label, required, hasError }) {
+      const [open, setOpen] = useState(false);
+      const [search, setSearch] = useState('');
+      const ref = useRef(null);
+
+      const selectedLabel = options.find(o => o.value === value)?.label || '';
+      const filtered = options.filter(o => o.label.toLowerCase().includes(search.toLowerCase()));
+
+      useEffect(() => {
+        const handler = e => { if (ref.current && !ref.current.contains(e.target)) { setOpen(false); setSearch(''); } };
+        document.addEventListener('mousedown', handler);
+        return () => document.removeEventListener('mousedown', handler);
+      }, []);
+
+      return (
+        <div className="searchable-dropdown" ref={ref}>
+          <input
+            type="text"
+            className={`searchable-dropdown-input${hasError ? ' input-error' : ''}`}
+            placeholder={placeholder}
+            value={open ? search : selectedLabel}
+            onChange={e => { setSearch(e.target.value); if (!open) setOpen(true); }}
+            onClick={() => { setOpen(!open); if (!open) setSearch(''); }}
+            readOnly={!open}
+          />
+          <span className={`searchable-dropdown-arrow${open ? ' open' : ''}`}><i className="fas fa-chevron-down"></i></span>
+          {open && (
+            <div className="searchable-dropdown-list">
+              {!required && (
+                <div className={`searchable-dropdown-item${!value ? ' selected' : ''}`} onClick={() => { onChange(''); setOpen(false); setSearch(''); }}>
+                  {placeholder}
+                </div>
+              )}
+              {filtered.length > 0 ? filtered.map((o, i) => (
+                <div key={i} className={`searchable-dropdown-item${value === o.value ? ' selected' : ''}`} onClick={() => { onChange(o.value); setOpen(false); setSearch(''); }}>
+                  {o.label}
+                </div>
+              )) : <div className="searchable-dropdown-item no-results">No results</div>}
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    /* ─── EmailField — with real-time duplicate check ─── */
+    function EmailField({ field, value, onChange, error, onDuplicateResult }) {
+      const [dupState, setDupState] = useState(null); // null | 'checking' | 'duplicate' | 'ok'
+      const lastChecked = useRef('');
+
+      const checkDup = async (email) => {
+        if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+          setDupState(null);
+          onDuplicateResult(field.name, false);
+          return;
+        }
+        if (email === lastChecked.current) return;
+        lastChecked.current = email;
+        setDupState('checking');
+        try {
+          const res = await serverCall('checkDuplicate', email, field.name);
+          if (email !== lastChecked.current) return; // stale
+          const isDup = res.success && res.data.exists;
+          setDupState(isDup ? 'duplicate' : 'ok');
+          onDuplicateResult(field.name, isDup);
+        } catch(e) {
+          setDupState(null);
+          onDuplicateResult(field.name, false);
+        }
+      };
+
+      const handleChange = (val) => {
+        onChange(val);
+        setDupState(null);
+        onDuplicateResult(field.name, false);
+        lastChecked.current = '';
+      };
+
+      return (
+        <div className="form-group">
+          <label>{field.label}{field.required && <span style={{color:'var(--danger)',marginLeft:3}}>*</span>}</label>
+          <input
+            type="email"
+            className={`${(error || dupState === 'duplicate') ? 'input-error' : ''}`}
+            placeholder={field.placeholder}
+            value={value}
+            onChange={e => handleChange(e.target.value)}
+            onBlur={e => checkDup(e.target.value.trim())}
+          />
+          {dupState === 'checking' && (
+            <div className="dup-check checking"><i className="fas fa-spinner fa-spin"></i> Checking...</div>
+          )}
+          {dupState === 'duplicate' && (
+            <div className="dup-check duplicate"><i className="fas fa-circle-exclamation"></i> This email is already registered</div>
+          )}
+          {dupState === 'ok' && !error && (
+            <div className="dup-check ok"><i className="fas fa-circle-check"></i> Email available</div>
+          )}
+          {error && <div className="field-error"><i className="fas fa-exclamation-circle"></i>{error}</div>}
+        </div>
+      );
+    }
+
+    /* ─── DependentSelectField — options filtered by parent field value ─── */
+    function DependentSelectField({ field, value, onChange, error, parentValue }) {
+      // parse rawOptions: "ParentVal:opt1,opt2|ParentVal2:opt3,opt4"
+      const optMap = useMemo(() => {
+        const m = {};
+        if (!field.rawOptions) return m;
+        field.rawOptions.split('|').forEach(seg => {
+          const ci = seg.indexOf(':');
+          if (ci === -1) return;
+          const key = seg.substring(0, ci).trim();
+          const opts = seg.substring(ci + 1).split(',').map(o => o.trim()).filter(Boolean);
+          if (key && opts.length) m[key] = opts;
+        });
+        return m;
+      }, [field.rawOptions]);
+
+      const opts = (parentValue && optMap[parentValue]) ? optMap[parentValue].map(o => ({ value: o, label: o })) : [];
+      const parentLabel = field.dependsOn ? field.dependsOn.replace(/_/g, ' ') : 'parent field';
+
+      if (!parentValue) {
+        return (
+          <div className="form-group">
+            <label>{field.label}{field.required && <span style={{color:'var(--danger)',marginLeft:3}}>*</span>}</label>
+            <div className="dep-disabled">
+              <i className="fas fa-arrow-up" style={{marginRight:8,fontSize:11,opacity:0.6}}></i>Select {parentLabel} first
+            </div>
+            {error && <div className="field-error"><i className="fas fa-exclamation-circle"></i>{error}</div>}
+          </div>
+        );
+      }
+
+      return (
+        <div className="form-group">
+          <label>{field.label}{field.required && <span style={{color:'var(--danger)',marginLeft:3}}>*</span>}</label>
+          <SearchableDropdown
+            options={opts}
+            value={value}
+            onChange={onChange}
+            placeholder={field.placeholder || `Select ${field.label}...`}
+            required={field.required}
+            hasError={!!error}
+          />
+          {error && <div className="field-error"><i className="fas fa-exclamation-circle"></i>{error}</div>}
+        </div>
+      );
+    }
+
+    /* ─── FieldRenderer ─── */
+    function FieldRenderer({ field, value, onChange, error, formData, onDuplicateResult }) {
+      const inputCls = `${error ? 'input-error' : ''}`;
+
+      if (field.type === 'email') {
+        return <EmailField field={field} value={value} onChange={onChange} error={error} onDuplicateResult={onDuplicateResult} />;
+      }
+
+      if (field.type === 'dependent_select') {
+        const parentValue = field.dependsOn ? (formData[field.dependsOn] || '') : '';
+        return <DependentSelectField field={field} value={value} onChange={onChange} error={error} parentValue={parentValue} />;
+      }
+
+      if (field.type === 'select') {
+        const opts = field.options.map(o => ({ value: o, label: o }));
+        return (
+          <div className="form-group">
+            <label>{field.label}{field.required && <span style={{color:'var(--danger)',marginLeft:3}}>*</span>}</label>
+            <SearchableDropdown
+              options={opts}
+              value={value}
+              onChange={onChange}
+              placeholder={field.placeholder || `Select ${field.label}...`}
+              required={field.required}
+              hasError={!!error}
+            />
+            {error && <div className="field-error"><i className="fas fa-exclamation-circle"></i>{error}</div>}
+          </div>
+        );
+      }
+
+      if (field.type === 'radio') {
+        return (
+          <div className="form-group">
+            <label>{field.label}{field.required && <span style={{color:'var(--danger)',marginLeft:3}}>*</span>}</label>
+            <div className="radio-group">
+              {field.options.map((opt, i) => (
+                <div key={i} className={`radio-item${value === opt ? ' selected' : ''}`} onClick={() => onChange(opt)}>
+                  <input type="radio" readOnly checked={value === opt} id={`${field.name}_${i}`} />
+                  <label htmlFor={`${field.name}_${i}`}>{opt}</label>
+                </div>
+              ))}
+            </div>
+            {error && <div className="field-error" style={{marginTop:8}}><i className="fas fa-exclamation-circle"></i>{error}</div>}
+          </div>
+        );
+      }
+
+      if (field.type === 'checkbox') {
+        const checked = Array.isArray(value) ? value : (value ? String(value).split(',').map(v=>v.trim()).filter(Boolean) : []);
+        const toggle = opt => {
+          const next = checked.includes(opt) ? checked.filter(v => v !== opt) : [...checked, opt];
+          onChange(next);
+        };
+        return (
+          <div className="form-group">
+            <label>{field.label}{field.required && <span style={{color:'var(--danger)',marginLeft:3}}>*</span>}</label>
+            <div className="checkbox-group">
+              {field.options.map((opt, i) => (
+                <div key={i} className={`checkbox-item${checked.includes(opt) ? ' checked' : ''}`} onClick={() => toggle(opt)}>
+                  <input type="checkbox" readOnly checked={checked.includes(opt)} id={`${field.name}_${i}`} />
+                  <label htmlFor={`${field.name}_${i}`}>{opt}</label>
+                </div>
+              ))}
+            </div>
+            {error && <div className="field-error" style={{marginTop:8}}><i className="fas fa-exclamation-circle"></i>{error}</div>}
+          </div>
+        );
+      }
+
+      if (field.type === 'textarea') {
+        return (
+          <div className="form-group">
+            <label>{field.label}{field.required && <span style={{color:'var(--danger)',marginLeft:3}}>*</span>}</label>
+            <textarea
+              className={inputCls}
+              placeholder={field.placeholder}
+              value={value}
+              onChange={e => onChange(e.target.value)}
+              rows={4}
+            />
+            {error && <div className="field-error"><i className="fas fa-exclamation-circle"></i>{error}</div>}
+          </div>
+        );
+      }
+
+      if (field.type === 'image' || field.type === 'file') {
+        return <FileUploadField field={field} value={value} onChange={onChange} error={error} />;
+      }
+
+      // text / email / tel / number / date
+      return (
+        <div className="form-group">
+          <label>{field.label}{field.required && <span style={{color:'var(--danger)',marginLeft:3}}>*</span>}</label>
+          <input
+            type={field.type}
+            className={inputCls}
+            placeholder={field.placeholder}
+            value={value}
+            onChange={e => onChange(e.target.value)}
+          />
+          {error && <div className="field-error"><i className="fas fa-exclamation-circle"></i>{error}</div>}
+        </div>
+      );
+    }
+
+    /* ─── FileUploadField ─── */
+    function FileUploadField({ field, value, onChange, error }) {
+      const inputRef = useRef(null);
+      const isImage = field.type === 'image';
+      const accept = isImage ? 'image/*' : '*/*';
+      const hasFile = value && (value.base64 || value.url);
+
+      const handleChange = e => {
+        const file = e.target.files[0];
+        if (!file) return;
+        // 10MB guard
+        if (file.size > 10 * 1024 * 1024) {
+          Swal.fire({ icon: 'warning', title: 'File too large', text: 'Max file size is 10 MB.' });
+          e.target.value = '';
+          return;
+        }
+        const reader = new FileReader();
+        reader.onload = evt => {
+          const dataUrl = evt.target.result;
+          const base64 = dataUrl.split(',')[1];
+          onChange({ base64, name: file.name, mime: file.type, preview: isImage ? dataUrl : null });
+        };
+        reader.readAsDataURL(file);
+      };
+
+      const clear = () => {
+        onChange(null);
+        if (inputRef.current) inputRef.current.value = '';
+      };
+
+      return (
+        <div className="form-group">
+          <label>{field.label}{field.required && <span style={{color:'var(--danger)',marginLeft:3}}>*</span>}</label>
+          <input
+            ref={inputRef}
+            type="file"
+            className={`file-input${error ? ' input-error' : ''}`}
+            accept={accept}
+            onChange={handleChange}
+          />
+          <div className="upload-hint">
+            {isImage ? 'Accepted: JPG, PNG, GIF, WebP — max 10 MB' : 'Max 10 MB'}
+          </div>
+
+          {/* image preview */}
+          {isImage && hasFile && value.preview && (
+            <div className="img-preview">
+              <img src={value.preview} alt="Preview" />
+              <button type="button" className="img-preview-remove" onClick={clear} title="Remove">
+                <i className="fas fa-times"></i>
+              </button>
+            </div>
+          )}
+
+          {/* file badge (non-image OR image already uploaded) */}
+          {!isImage && hasFile && (
+            <div className="file-badge">
+              <i className="fas fa-paperclip"></i>
+              <span>{value.name || 'File selected'}</span>
+              <button type="button" className="file-badge-remove" onClick={clear} title="Remove">
+                <i className="fas fa-times"></i>
+              </button>
+            </div>
+          )}
+
+          {error && <div className="field-error" style={{marginTop:6}}><i className="fas fa-exclamation-circle"></i>{error}</div>}
+        </div>
+      );
+    }
+
+    /* ─── StepIndicator ─── */
+    function StepIndicator({ steps, current }) {
+      const all = [...steps.map(s => s.label), 'Review'];
+      return (
+        <div className="step-indicator">
+          {all.map((lbl, i) => {
+            const state = i < current ? 'completed' : i === current ? 'active' : 'pending';
+            return (
+              <React.Fragment key={i}>
+                {i > 0 && <div className={`step-connector${i <= current ? ' completed' : ''}`}></div>}
+                <div className="step-item">
+                  <div className={`step-circle ${state}`}>
+                    {state === 'completed' ? <i className="fas fa-check" style={{fontSize:12}}></i> : i + 1}
+                  </div>
+                  <div className={`step-lbl ${state}`}>{lbl}</div>
+                </div>
+              </React.Fragment>
+            );
+          })}
+        </div>
+      );
+    }
+
+    /* ─── ReviewStep ─── */
+    function ReviewStep({ steps, formData }) {
+      const renderVal = (field, raw) => {
+        // file/image — show thumb or badge
+        if (field.type === 'image' || field.type === 'file') {
+          if (!raw) return <span className="review-item-empty">—</span>;
+          // already uploaded (has url) or just selected (has preview/name)
+          const url = raw.url || raw.preview;
+          const name = raw.name || 'File';
+          if (field.type === 'image' && url) {
+            return <img src={url} alt={name} className="review-img-thumb" />;
+          }
+          return (
+            <span style={{fontSize:13, color:'#333', display:'flex', alignItems:'center', gap:6}}>
+              <i className="fas fa-paperclip" style={{color:'var(--navy-accent)'}}></i>{name}
+            </span>
+          );
+        }
+        // arrays (checkbox)
+        if (Array.isArray(raw)) return raw.length ? raw.join(', ') : <span className="review-item-empty">—</span>;
+        // empty
+        const s = raw !== undefined && raw !== '' ? String(raw) : null;
+        return s ? s : <span className="review-item-empty">—</span>;
+      };
+
+      return (
+        <>
+          <div className="review-header">Review Your Answers</div>
+          <div className="review-sub">Please review before submitting. Click Back to make changes.</div>
+          {steps.map((step, si) => (
+            <div key={si} className="review-section">
+              <div className="review-section-title">
+                <i className="fas fa-circle-dot" style={{fontSize:8}}></i>
+                {step.label}
+              </div>
+              <div className="review-grid">
+                {step.fields.map((f, fi) => {
+                  const raw = formData[f.name];
+                  return (
+                    <div key={fi} className="review-item">
+                      <div className="review-item-lbl">{f.label}</div>
+                      <div className="review-item-val">
+                        {renderVal(f, raw)}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          ))}
+        </>
+      );
+    }
+
+    /* ─── SuccessScreen ─── */
+    function SuccessScreen({ id, onReset, appConfig }) {
+      const title = appConfig?.success_title || 'Thank You!';
+      const msg   = appConfig?.success_message || 'Your response has been recorded successfully.';
+      return (
+        <div className="success-screen">
+          <div className="success-icon"><i className="fas fa-check"></i></div>
+          <div className="success-title">{title}</div>
+          <div className="success-msg">{msg}</div>
+          <div className="success-id">Reference ID: <strong>#{id}</strong></div>
+          <br />
+          <button className="btn btn-primary" onClick={onReset}>
+            <i className="fas fa-plus"></i> Submit Another Response
+          </button>
+        </div>
+      );
+    }
+
+    /* ─── MultiStepForm ─── */
+    function MultiStepForm({ config }) {
+      const [step, setStep] = useState(0);
+      const [formData, setFormData] = useState({});
+      const [errors, setErrors] = useState({});
+      const [duplicates, setDuplicates] = useState({});
+      const [submitted, setSubmitted] = useState(false);
+      const [responseId, setResponseId] = useState(null);
+      const [saving, setSaving] = useState(false);
+
+      const steps = config.steps;
+      const total = steps.length;
+      const isReview = step === total;
+
+      const validate = idx => {
+        const errs = {};
+        (steps[idx]?.fields || []).forEach(f => {
+          if (!f.required) return;
+          const v = formData[f.name];
+          if (f.type === 'image' || f.type === 'file') {
+            if (!v || (!v.base64 && !v.url)) errs[f.name] = `${f.label} is required`;
+            return;
+          }
+          const empty = v === undefined || v === '' || (Array.isArray(v) && v.length === 0);
+          if (empty) { errs[f.name] = `${f.label} is required`; return; }
+          if (f.type === 'email' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)) {
+            errs[f.name] = 'Enter a valid email address';
+          }
+        });
+        // block on duplicate email
+        (steps[idx]?.fields || []).forEach(f => {
+          if (f.type === 'email' && duplicates[f.name]) {
+            errs[f.name] = errs[f.name] || 'This email is already registered';
+          }
+        });
+        return errs;
+      };
+
+      const next = () => {
+        if (isReview) return;
+        const errs = validate(step);
+        if (Object.keys(errs).length) { setErrors(errs); return; }
+        setErrors({});
+        setStep(s => s + 1);
+        window.scrollTo(0, 0);
+      };
+
+      const prev = () => { setErrors({}); setStep(s => s - 1); window.scrollTo(0, 0); };
+
+      const updateField = (name, val) => {
+        setFormData(prev => {
+          const next = { ...prev, [name]: val };
+          // reset any dependent_select fields whose parent just changed
+          steps.flatMap(s => s.fields)
+            .filter(f => f.type === 'dependent_select' && f.dependsOn === name)
+            .forEach(f => { next[f.name] = ''; });
+          return next;
+        });
+        setErrors(prev => { const e = {...prev}; delete e[name]; return e; });
+      };
+
+      const onDuplicateResult = (fieldName, isDuplicate) => {
+        setDuplicates(prev => ({ ...prev, [fieldName]: isDuplicate }));
+      };
+
+      const submit = async () => {
+        setSaving('Uploading files...');
+        try {
+          // collect all file/image fields that have pending base64 data
+          const fileFields = steps.flatMap(s => s.fields).filter(f =>
+            (f.type === 'image' || f.type === 'file') && formData[f.name]?.base64
+          );
+
+          const payload = { ...formData };
+
+          // upload each file, replace base64 object with Drive URL string
+          for (const f of fileFields) {
+            const { base64, name, mime } = payload[f.name];
+            const up = await serverCall('uploadFile', base64, name, mime);
+            if (!up.success) throw new Error(`Upload failed for "${f.label}": ${up.message}`);
+            payload[f.name] = up.data.url;
+          }
+
+          setSaving('Submitting...');
+          const res = await serverCall('submitForm', payload);
+          setSaving('');
+          if (res.success) { setResponseId(res.data.id); setSubmitted(true); }
+          else Swal.fire({ icon: 'error', title: 'Error', text: res.message });
+        } catch(e) {
+          setSaving('');
+          Swal.fire({ icon: 'error', title: 'Error', text: e.message || 'Submission failed. Please try again.' });
+        }
+      };
+
+      if (submitted) {
+        return (
+          <div className="form-outer">
+            <div className="form-card">
+              <SuccessScreen id={responseId} appConfig={config.appConfig} onReset={() => { setSubmitted(false); setStep(0); setFormData({}); setErrors({}); setDuplicates({}); }} />
+            </div>
+          </div>
+        );
+      }
+
+      return (
+        <div className="form-outer">
+          <div className="form-card">
+            <StepIndicator steps={steps} current={step} />
+            {!isReview ? (
+              <>
+                <div className="step-title">{steps[step].label}</div>
+                <div className="step-sub">Step {step + 1} of {total} — Fill in the details below</div>
+                {steps[step].fields.map(f => (
+                  <FieldRenderer
+                    key={f.id}
+                    field={f}
+                    value={formData[f.name] !== undefined ? formData[f.name]
+                      : (f.type === 'checkbox' ? [] : (f.type === 'image' || f.type === 'file') ? null : '')}
+                    onChange={val => updateField(f.name, val)}
+                    error={errors[f.name]}
+                    formData={formData}
+                    onDuplicateResult={onDuplicateResult}
+                  />
+                ))}
+              </>
+            ) : (
+              <ReviewStep steps={steps} formData={formData} />
+            )}
+            <div className="form-nav">
+              {step > 0
+                ? <button className="btn btn-secondary" onClick={prev}><i className="fas fa-arrow-left"></i> Back</button>
+                : <span></span>
+              }
+              {!isReview
+                ? <button className="btn btn-primary" onClick={next}>
+                    {step === total - 1 ? 'Review' : 'Next'} <i className="fas fa-arrow-right"></i>
+                  </button>
+                : <button className="btn btn-success" onClick={submit} disabled={!!saving}>
+                    {saving
+                      ? <><i className="fas fa-spinner fa-spin"></i> {saving}</>
+                      : <><i className="fas fa-paper-plane"></i> Submit Form</>
+                    }
+                  </button>
+              }
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    /* ─── AboutView ─── */
+    function AboutView() {
+      return (
+        <div className="about-outer">
+          <div className="about-section">
+            <div className="about-header">
+              <div className="about-logo"><img src={LOGO} alt="Rameez Scripts" /></div>
+              <div className="about-title">
+                <h1>JCI FORM</h1>
+                <div className="about-dev">Developed by Technical Team</div>
+              </div>
+            </div>
+
+            <div className="about-card">
+              <h2><i className="fas fa-circle-info"></i> About This App</h2>
+              <p></p>
+            </div>
+
+            <div className="about-card">
+              <h2><i className="fas fa-star"></i> Features</h2>
+              <ul className="about-features">
+                <li><i className="fas fa-check"></i> Settings-driven form fields</li>
+                <li><i className="fas fa-check"></i> Multi-step with progress bar</li>
+                <li><i className="fas fa-check"></i> Step-by-step validation</li>
+                <li><i className="fas fa-check"></i> Review step before submit</li>
+                <li><i className="fas fa-check"></i> Text, Email, Tel, Date fields</li>
+                <li><i className="fas fa-check"></i> Select, Radio, Checkbox, Textarea</li>
+                <li><i className="fas fa-check"></i> Image &amp; File upload to Drive</li>
+                <li><i className="fas fa-check"></i> Responses stored in Sheets</li>
+                <li><i className="fas fa-check"></i> Mobile responsive</li>
+                <li><i className="fas fa-envelope"></i> Confirmation email to submitter</li>
+                <li><i className="fas fa-bell"></i> Admin notification email</li>
+                <li><i className="fas fa-ban"></i> Real-time duplicate email check</li>
+                <li><i className="fas fa-link"></i> Dependent / cascading dropdowns</li>
+                <li><i className="fas fa-sliders"></i> Custom success title &amp; message</li>
+              </ul>
+            </div>
+
+            <div className="about-card">
+              <h2><i className="fas fa-database"></i> Sheet Structure</h2>
+              <div className="about-table-wrapper">
+                <table className="about-roles-table">
+                  <thead><tr><th>Sheet</th><th>Purpose</th><th>Key Columns</th></tr></thead>
+                  <tbody>
+                    <tr>
+                      <td><span className="role-badge role-sf">Config</span></td>
+                      <td>App settings &amp; email</td>
+                      <td>admin_email, success_title, success_message</td>
+                    </tr>
+                    <tr>
+                      <td><span className="role-badge role-admin">Settings</span></td>
+                      <td>Form field configuration</td>
+                      <td>step, field_name, field_type, options, required, active, depends_on</td>
+                    </tr>
+                    <tr>
+                      <td><span className="role-badge role-sf">Responses</span></td>
+                      <td>Form submissions</td>
+                      <td>response_id, submitted_at + one column per field</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <p style={{marginTop:14, fontSize:13, color:'#888'}}>
+                <strong>Supported field types:</strong> text, email, tel, number, date, textarea, select, radio, checkbox, image, file, <strong>dependent_select</strong><br/>
+                <strong>dependent_select</strong> — cascading dropdown; set <code>depends_on</code> = parent field name, options format: <code>ParentVal:opt1,opt2|ParentVal2:opt3</code><br/>
+                Image/file uploads go to a Drive folder named after the spreadsheet. URL is stored in Responses.<br/>
+                To configure emails: fill <code>admin_email</code> in the Config sheet. Confirmation is sent to the submitter's email field automatically.<br/>
+                To add a field: insert a new row in Settings with active = Yes. No redeployment needed.
+              </p>
+            </div>
+
+            <div className="about-card about-developer">
+              <h2><i className="fas fa-code"></i> Developer</h2>
+              <div className="developer-info">
+                <img src={LOGO} alt="Rameez Scripts" className="developer-avatar" />
+                <div className="developer-details">
+                  <h3>Rameez Scripts</h3>
+                  <div className="developer-brand">Custom Google Apps Script &amp; PHP/MySQL Solutions</div>
+                  <p>Building powerful web applications with Google Apps Script, React, and PHP/MySQL. Subscribe on YouTube for tutorials and custom project inquiries via WhatsApp.</p>
+                  <div className="developer-links">
+                    <a href="https://wa.me/923224083545" className="dev-link whatsapp" target="_blank" rel="noreferrer"><i className="fab fa-whatsapp"></i> WhatsApp</a>
+                    <a href="https://www.youtube.com/@rameezimdad" className="dev-link youtube" target="_blank" rel="noreferrer"><i className="fab fa-youtube"></i> YouTube</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="about-footer">
+            <p>JCI IMUS WAGAYWAY</p>
+            <p>&copy; 2026 JCI IMUS WAGAYWAY ALL RIGTHS RESERVED.</p>
+          </div>
+        </div>
+      );
+    }
+
+    /* ─── FormSkeleton ─── */
+    function FormSkeleton() {
+      return (
+        <div className="form-outer">
+          <div className="form-card">
+            {/* step indicator */}
+            <div className="skel-steps">
+              {[0,1,2,3].map(i => (
+                <React.Fragment key={i}>
+                  {i > 0 && <div className="skeleton skel-connector"></div>}
+                  <div className="skel-step-item">
+                    <div className="skeleton skel-circle"></div>
+                  </div>
+                </React.Fragment>
+              ))}
+            </div>
+            {/* title + sub */}
+            <div className="skeleton" style={{height:26, width:'52%', borderRadius:3, marginBottom:8}}></div>
+            <div className="skeleton" style={{height:13, width:'34%', borderRadius:3, marginBottom:28}}></div>
+            {/* fields */}
+            {[0,1,2].map(i => (
+              <div key={i} className="skel-field">
+                <div className="skeleton skel-label"></div>
+                <div className="skeleton skel-input"></div>
+              </div>
+            ))}
+            {/* nav */}
+            <div style={{display:'flex', justifyContent:'flex-end', marginTop:22, paddingTop:18, borderTop:'1px solid #f0f0f0'}}>
+              <div className="skeleton" style={{height:44, width:110, borderRadius:3}}></div>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    /* ─── App ─── */
+    function App() {
+      const [config, setConfig] = useState(null);
+      const [view, setView] = useState('form');
+      const [loading, setLoading] = useState(true);
+      const [initError, setInitError] = useState('');
+
+      useEffect(() => {
+        serverCall('getFormConfig').then(res => {
+          setLoading(false);
+          if (res.success) setConfig(res.data);
+          else setInitError(res.message || 'Failed to load form config.');
+        }).catch(() => { setLoading(false); setInitError('Connection failed. Please refresh.'); });
+      }, []);
+
+      return (
+        <div className="page-wrapper">
+          <nav className="top-nav">
+            <div className="nav-brand">
+              <img src={LOGO} alt="Logo" />
+              <h1>Multi-Step Form</h1>
+            </div>
+            <div className="nav-tabs">
+              <button className={`nav-tab${view === 'form' ? ' active' : ''}`} onClick={() => setView('form')}>
+                <i className="fas fa-pen-to-square"></i><span> Form</span>
+              </button>
+              <button className={`nav-tab${view === 'about' ? ' active' : ''}`} onClick={() => setView('about')}>
+                <i className="fas fa-circle-info"></i><span> About</span>
+              </button>
+            </div>
+          </nav>
+
+          <div className="page-content">
+            {initError && (
+              <div className="init-error">
+                <i className="fas fa-triangle-exclamation"></i>
+                <p>{initError}</p>
+              </div>
+            )}
+            {!initError && view === 'form' && (
+              loading ? <FormSkeleton /> : (config ? <MultiStepForm config={config} /> : null)
+            )}
+            {view === 'about' && <AboutView />}
+          </div>
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
+</html>

@@ -1,0 +1,59 @@
+/* ============================================================
+   chatbot.css  -  look of the chat button and window.
+   Colors come from the variables in style.css (--accent, --navy ...),
+   with fallbacks so this file also works on its own.
+   ============================================================ */
+
+#chatToggle {
+    position: fixed; right: 20px; bottom: 20px; z-index: 1050; width: 58px; height: 58px; padding: 0; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center; font-size: 24px;
+    box-shadow: 0 10px 26px rgba(0, 151, 215, 0.45);
+}
+#chatToggle .chat-close-ico { display: none; font-size: 20px; }
+#chatToggle.open .chat-open-ico { display: none; }
+#chatToggle.open .chat-close-ico { display: block; }
+
+.chat-box {
+    position: fixed; right: 20px; bottom: 90px; z-index: 1050;
+    width: 360px; max-width: calc(100vw - 32px); height: 480px; max-height: calc(100vh - 120px);
+    display: flex; flex-direction: column; overflow: hidden;
+    background: #fff; border: 1px solid var(--panel-border, rgba(0, 151, 215, 0.16)); border-radius: 20px;
+    box-shadow: 0 24px 60px rgba(11, 37, 69, 0.28);
+    animation: chatIn 0.25s ease;
+}
+.chat-box[hidden] { display: none; }
+@keyframes chatIn { from { opacity: 0; transform: translateY(14px) scale(0.98); } to { opacity: 1; transform: none; } }
+
+.chat-head {
+    display: flex; align-items: center; gap: 12px; padding: 14px 18px; color: #fff;
+    background: linear-gradient(135deg, var(--navy, #0b2545), var(--accent, #0097D7));
+}
+.chat-head strong { display: block; font-size: 15px; line-height: 1.2; }
+.chat-head small { font-size: 12px; opacity: 0.85; }
+.chat-avatar {
+    width: 40px; height: 40px; flex: none; border-radius: 50%; font-size: 20px;
+    background: rgba(255, 255, 255, 0.18); display: flex; align-items: center; justify-content: center;
+}
+
+.chat-body { flex: 1; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 10px; background: var(--bg, #f4f8fc); }
+.msg { max-width: 85%; padding: 10px 14px; border-radius: 16px; font-size: 14px; line-height: 1.5; word-wrap: break-word; }
+.msg.bot { align-self: flex-start; background: #fff; color: var(--text, #1b2a41); border: 1px solid var(--panel-border, rgba(0, 151, 215, 0.16)); border-bottom-left-radius: 4px; }
+.msg.user { align-self: flex-end; background: var(--accent, #0097D7); color: #fff; border-bottom-right-radius: 4px; }
+.msg.typing { opacity: 0.6; letter-spacing: 2px; }
+.msg a { color: var(--accent, #0097D7); font-weight: 600; }
+
+.chat-quick { display: flex; flex-wrap: wrap; gap: 6px; padding: 8px 14px; background: var(--bg, #f4f8fc); border-top: 1px solid var(--panel-border, rgba(0, 151, 215, 0.16)); }
+.chat-quick button {
+    font: 600 12px 'Poppins', Arial, sans-serif; color: var(--accent, #0097D7); background: #fff; cursor: pointer;
+    border: 1px solid rgba(0, 151, 215, 0.35); border-radius: 999px; padding: 5px 12px; transition: 0.25s ease;
+}
+.chat-quick button:hover { background: var(--accent, #0097D7); color: #fff; }
+
+.chat-form { display: flex; gap: 8px; padding: 12px; background: #fff; border-top: 1px solid var(--panel-border, rgba(0, 151, 215, 0.16)); }
+.chat-form .form-control { font-size: 14px; border-radius: 12px; }
+.chat-form .form-control:focus { border-color: var(--accent, #0097D7); box-shadow: 0 0 0 3px rgba(0, 151, 215, 0.25); }
+.chat-form .btn { flex: none; width: 46px; padding: 0; box-shadow: none; }
+
+@media (max-width: 575.98px) {
+    .chat-box { right: 16px; left: 16px; width: auto; bottom: 88px; }
+}

@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JCI IMUS | Junior Chamber International Imus</title>
+    <meta name="description" content="JCI Imus - young leaders creating positive change in our community. Meet our officers, see our projects and join us.">
+    <meta name="theme-color" content="#0097D7">
+    <!-- Favicon (swap for your own logo file: <link rel="icon" href="JCILOGO.png">) -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%230097D7'/><text x='50' y='66' font-size='44' font-family='Arial' font-weight='bold' text-anchor='middle' fill='white'>JCI</text></svg>">
+
+    <!-- Fonts, Bootstrap 5, Bootstrap Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+     <link rel="stylesheet" href="chatbot.css">
+</head>
+<body data-bs-spy="scroll" data-bs-target="#mainNav" data-bs-root-margin="-45% 0px -50% 0px" tabindex="0">
+
+<!-- NAV -->
+<nav id="mainNav" class="navbar navbar-expand-lg fixed-top site-nav">
+    <div class="container">
+        <a class="navbar-brand brand d-flex align-items-center gap-2" href="#home">
+            <!-- put your logo here: <img src="JCILOGO.png" alt="JCI Imus logo" height="36"> -->
+            JCI IMUS WAGAYWAY
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navContent"
+                aria-controls="navContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navContent">
+            <ul class="navbar-nav ms-lg-auto me-lg-3 mb-2 mb-lg-0">
+                <li class="nav-item"><a class="nav-link" href="#home">HOME</a></li>
+                <li class="nav-item"><a class="nav-link" href="#officers">OFFICERS</a></li>
+                <li class="nav-item"><a class="nav-link" href="#mission">MISSION</a></li>
+                <li class="nav-item"><a class="nav-link" href="#events">EVENTS</a></li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">EXPLORE</a>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="#services">SERVICES</a></li>
+                        <li><a class="dropdown-item" href="#why">WHY JOIN</a></li>
+                        <li><a class="dropdown-item" href="#portfolio">PORTFOLIO</a></li>
+                        <li><a class="dropdown-item" href="#projects">PROJECTS</a></li>
+                        <li><a class="dropdown-item" href="#gallery">GALLERY</a></li>
+                        <li><a class="dropdown-item" href="#workflow">PROCESS</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item"><a class="nav-link" href="#contact">CONTACT</a></li>
+                   <li class="nav-item"><a class="nav-link" href="about.html">ABOUT</a></li>
+            </ul>
+
+            <!-- SEARCH BAR -->
+            <form class="d-flex search-form" id="siteSearch" role="search" autocomplete="off">
+                <div class="input-group">
+                    <input class="form-control" type="search" id="searchInput" list="searchList"
+                           placeholder="Search the site..." aria-label="Search">
+                    <button class="btn btn-primary" type="submit" aria-label="Search"><i class="bi bi-search"></i></button>
+                </div>
+                <datalist id="searchList">
+                    <option value="Officers"></option>
+                    <option value="Mission"></option>
+                    <option value="Vision"></option>
+                    <option value="Events"></option>
+                    <option value="Services"></option>
+                    <option value="Portfolio"></option>
+                    <option value="Projects"></option>
+                    <option value="Gallery"></option>
+                    <option value="Workflow"></option>
+                    <option value="Chapters"></option>
+                    <option value="Contact"></option>
+                </datalist>
+            </form>
+        </div>
+    </div>
+</nav>
+
+<div id="searchStatus" class="alert alert-warning shadow-sm py-2 px-3 d-none" role="status"></div>
+
+<main>
+
+<!-- HERO -->
+<section id="home" class="hero">
+    <div class="container position-relative">
+        <div class="row align-items-center">
+            <div class="col-lg-8">
+                <span class="kicker reveal">Junior Chamber International</span>
+                <h1 class="reveal">Young leaders creating <span>positive change</span> in Imus</h1>
+                <p class="hero-lead reveal">Replace this with one or two sentences about who JCI Imus is and what you do for the community.</p>
+                <div class="d-flex flex-wrap gap-3 reveal">
+                    <a class="btn btn-primary btn-lg px-4" href="#contact">JOIN US</a>
+                    <a class="btn btn-outline-light-custom btn-lg px-4" href="#projects">SEE OUR PROJECTS</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- stats strip: edit the numbers -->
+        <div class="stats row g-3 mt-5 reveal">
+            <div class="col-6 col-md-3"><div class="stat"><strong data-count="50" data-suffix="+">0</strong><span>Active Members</span></div></div>
+            <div class="col-6 col-md-3"><div class="stat"><strong data-count="30" data-suffix="+">0</strong><span>Projects Done</span></div></div>
+            <div class="col-6 col-md-3"><div class="stat"><strong data-count="10" data-suffix="+">0</strong><span>Years Active</span></div></div>
+            <div class="col-6 col-md-3"><div class="stat"><strong data-count="5000" data-suffix="+">0</strong><span>Lives Touched</span></div></div>
+        </div>
+    </div>
+</section>
+
+<!-- OFFICERS -->
+<section id="officers-wrap" class="pb-0">
+    <div class="container">
+        <div class="section-head text-center mx-auto reveal">
+            <span class="kicker">Leadership</span>
+            <h2>Meet Our 2027 Officers</h2>
+        </div>
+    </div>
+    <div class="carousel-officers" id="officers" aria-roledescription="carousel" aria-label="2027 Officers">
+        <button class="car-btn prev btn btn-primary rounded-circle" type="button" aria-label="Previous officer"><i class="bi bi-chevron-left"></i></button>
+        <div class="car-track">
+            <!-- To use a photo: <div class="officer a"><img src="officer1.jpg" alt="Neil Tran"><span class="chip">...</span></div> -->
+            <div class="officer a"><span class="role">President</span><span class="chip">Neil Tran</span></div>
+            <div class="officer b"><span class="role">Vice President</span><span class="chip">Chidi Eze</span></div>
+            <div class="officer c"><span class="role">Secretary</span><span class="chip">Juliana</span></div>
+            <div class="officer a"><span class="role">Treasurer</span><span class="chip">Officer 4</span></div>
+            <div class="officer b"><span class="role">Director</span><span class="chip">Officer 5</span></div>
+            <div class="officer c"><span class="role">Director</span><span class="chip">Officer 6</span></div>
+            <div class="officer a"><span class="role">Director</span><span class="chip">Officer 7</span></div>
+            <div class="officer b"><span class="role">Director</span><span class="chip">Officer 8</span></div>
+            <div class="officer c"><span class="role">Director</span><span class="chip">Officer 9</span></div>
+        </div>
+        <button class="car-btn next btn btn-primary rounded-circle" type="button" aria-label="Next officer"><i class="bi bi-chevron-right"></i></button>
+        <div class="car-dots" role="tablist" aria-label="Choose officer"></div>
+    </div>
+</section>
+
+<!-- MISSION & VISION -->
+<section id="mission">
+    <div class="container text-center">
+        <h2 class="reveal">Our Mission &amp; Vision</h2>
+        <div class="row justify-content-center g-4 mt-3 text-start">
+            <div class="col-md-6 col-lg-5 reveal">
+                <div class="mv-card h-100">
+                    <span class="ico mb-3"><i class="bi bi-bullseye"></i></span>
+                    <h3>Mission</h3>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur in faucibus sapien. Vivamus laoreet convallis augue non ullamcorper.</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-5 reveal">
+                <div class="mv-card h-100">
+                    <span class="ico mb-3"><i class="bi bi-eye"></i></span>
+                    <h3>Vision</h3>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur in faucibus sapien. Vivamus laoreet convallis augue non ullamcorper.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- EVENTS -->
+<section id="events" class="alt">
+    <div class="container">
+        <div class="section-head text-center mx-auto reveal">
+            <span class="kicker">What's Next</span>
+            <h2>Upcoming Events</h2>
+            <p class="mt-3">Join us at our next gatherings, trainings and community activities.</p>
+        </div>
+        <div class="row g-4">
+            <div class="col-md-6 col-lg-4 reveal">
+                <article class="event">
+                    <div class="date"><strong>15</strong><span>NOV</span></div>
+                    <div>
+                        <h3>General Membership Meeting</h3>
+                        <p class="meta"><i class="bi bi-clock"></i> 7:00 PM &nbsp; <i class="bi bi-geo-alt"></i> Imus, Cavite</p>
+                        <p>Short description of the event and who it is for.</p>
+                    </div>
+                </article>
+            </div>
+            <div class="col-md-6 col-lg-4 reveal">
+                <article class="event">
+                    <div class="date"><strong>28</strong><span>NOV</span></div>
+                    <div>
+                        <h3>Community Outreach</h3>
+                        <p class="meta"><i class="bi bi-clock"></i> 8:00 AM &nbsp; <i class="bi bi-geo-alt"></i> Imus, Cavite</p>
+                        <p>Short description of the event and who it is for.</p>
+                    </div>
+                </article>
+            </div>
+            <div class="col-md-6 col-lg-4 reveal">
+                <article class="event">
+                    <div class="date"><strong>10</strong><span>DEC</span></div>
+                    <div>
+                        <h3>Leadership Training</h3>
+                        <p class="meta"><i class="bi bi-clock"></i> 9:00 AM &nbsp; <i class="bi bi-geo-alt"></i> Imus, Cavite</p>
+                        <p>Short description of the event and who it is for.</p>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+    <div class="container">
+        <div class="row align-items-center g-5">
+            <div class="col-lg-6 reveal">
+                <h2>Our Services</h2>
+                <h3 class="mt-4 mb-3">What We Do</h3>
+                <p class="lead-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur in faucibus sapien. Vivamus laoreet convallis augue non ullamcorper. Etiam eleifend, turpis finibus vulputate porttitor.</p>
+            </div>
+            <div class="col-lg-6 reveal">
+                <!-- To use a photo, add: <img src="services.jpg" alt="..." class="cover"> inside .services-img -->
+                <div class="services-img ph img-card">
+                    <div class="tags">
+                        <span class="chip">Web Development &amp; Maintenance</span>
+                        <span class="chip">UI/UX Design</span>
+                        <span class="chip">SEO Optimization</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- WHY JOIN -->
+<section id="why" class="alt">
+    <div class="container">
+        <div class="section-head text-center mx-auto reveal">
+            <span class="kicker">Benefits</span>
+            <h2>Why Join JCI Imus?</h2>
+            <p class="mt-3">Grow as a leader while making a real difference in your community.</p>
+        </div>
+        <div class="row g-4">
+            <div class="col-md-6 col-lg-4 reveal"><div class="benefit"><span class="ico"><i class="bi bi-lightbulb"></i></span><h3>Leadership Skills</h3><p>Hands-on training, workshops and chances to lead real projects.</p></div></div>
+            <div class="col-md-6 col-lg-4 reveal"><div class="benefit"><span class="ico"><i class="bi bi-people"></i></span><h3>Network &amp; Friends</h3><p>Meet driven young people and connect with chapters nationwide.</p></div></div>
+            <div class="col-md-6 col-lg-4 reveal"><div class="benefit"><span class="ico"><i class="bi bi-heart"></i></span><h3>Community Impact</h3><p>Run projects that help families, students and local causes.</p></div></div>
+            <div class="col-md-6 col-lg-4 reveal"><div class="benefit"><span class="ico"><i class="bi bi-globe-americas"></i></span><h3>Global Reach</h3><p>Be part of a worldwide organization present in 100+ countries.</p></div></div>
+            <div class="col-md-6 col-lg-4 reveal"><div class="benefit"><span class="ico"><i class="bi bi-trophy"></i></span><h3>Recognition</h3><p>Earn awards and recognition for your service and growth.</p></div></div>
+            <div class="col-md-6 col-lg-4 reveal"><div class="benefit"><span class="ico"><i class="bi bi-briefcase"></i></span><h3>Career Growth</h3><p>Build experience that stands out on your resume.</p></div></div>
+        </div>
+    </div>
+</section>
+
+<!-- PORTFOLIO -->
+<section id="portfolio">
+    <div class="container">
+        <div class="row align-items-center g-5">
+            <div class="col-lg-6 reveal">
+                <h2>Our Portfolio</h2>
+                <h3 class="mt-4 mb-3">Showcasing Our Proudest Creations</h3>
+                <p class="lead-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur in faucibus sapien. Vivamus laoreet convallis augue non ullamcorper. Etiam eleifend, turpis finibus vulputate porttitor.</p>
+            </div>
+            <div class="col-lg-6 reveal">
+                <div class="portfolio-img img-card"></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects" class="alt">
+    <div class="container">
+        <div class="section-head text-center mx-auto reveal">
+            <span class="kicker">Projects</span>
+            <h2>Our Projects</h2>
+            <p class="mt-3">A selection of recent work we are proud to have built with our partners.</p>
+        </div>
+        <div class="row g-4">
+            <div class="col-12 col-md-6 col-lg-4 reveal">
+                <article class="card project p1 h-100">
+                    <div class="thumb"><span class="badge">Community</span></div>
+                    <div class="card-body d-flex flex-column">
+                        <h3 class="card-title">Project 1</h3>
+                        <p class="card-text">Short description of the project, the goal and the result.</p>
+                        <a class="more mt-auto" href="#projects">View project <span aria-hidden="true">&rarr;</span></a>
+                    </div>
+                </article>
+            </div>
+            <div class="col-12 col-md-6 col-lg-4 reveal">
+                <article class="card project p2 h-100">
+                    <div class="thumb"><span class="badge">Training</span></div>
+                    <div class="card-body d-flex flex-column">
+                        <h3 class="card-title">Project 2</h3>
+                        <p class="card-text">Short description of the project, the goal and the result.</p>
+                        <a class="more mt-auto" href="#projects">View project <span aria-hidden="true">&rarr;</span></a>
+                    </div>
+                </article>
+            </div>
+            <div class="col-12 col-md-6 col-lg-4 reveal">
+                <article class="card project p3 h-100">
+                    <div class="thumb"><span class="badge">Outreach</span></div>
+                    <div class="card-body d-flex flex-column">
+                        <h3 class="card-title">Project 3</h3>
+                        <p class="card-text">Short description of the project, the goal and the result.</p>
+                        <a class="more mt-auto" href="#projects">View project <span aria-hidden="true">&rarr;</span></a>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- GALLERY -->
+<section id="gallery">
+    <div class="container">
+        <div class="section-head text-center mx-auto reveal">
+            <span class="kicker">Moments</span>
+            <h2>Photo Gallery</h2>
+            <p class="mt-3">Replace these boxes with your event photos: <!--<code>&lt;img src="photo1.jpg" alt="Describe the photo"&gt;</code>--></p>
+        </div>
+        <div class="gallery reveal">
+            <figure class="g1"><i class="bi bi-image"></i></figure>
+            <figure class="g2"><i class="bi bi-image"></i></figure>
+            <figure class="g3"><i class="bi bi-image"></i></figure>
+            <figure class="g4"><i class="bi bi-image"></i></figure>
+            <figure class="g5"><i class="bi bi-image"></i></figure>
+            <figure class="g6"><i class="bi bi-image"></i></figure>
+        </div>
+    </div>
+</section>
+
+<!-- WORKFLOW -->
+<section id="workflow" class="alt">
+    <div class="container">
+        <div class="section-head text-center mx-auto reveal">
+            <span class="kicker">Process</span>
+            <h2>Our Workflow</h2>
+            <p class="mt-3">How we work: a simple, transparent process from first call to long-term support.</p>
+        </div>
+        <ol class="row row-cols-1 row-cols-sm-2 row-cols-lg-5 g-4 list-unstyled steps">
+            <li class="col reveal"><div class="step h-100"><span class="num">01</span><h3>Consultation</h3><p>We listen to your goals, audience and requirements.</p></div></li>
+            <li class="col reveal"><div class="step h-100"><span class="num">02</span><h3>Planning &amp; Design</h3><p>We map the structure and craft a clean, usable design.</p></div></li>
+            <li class="col reveal"><div class="step h-100"><span class="num">03</span><h3>Development &amp; Testing</h3><p>We build, then test across devices and browsers.</p></div></li>
+            <li class="col reveal"><div class="step h-100"><span class="num">04</span><h3>Deployment</h3><p>We launch your site and make sure everything runs smoothly.</p></div></li>
+            <li class="col reveal"><div class="step h-100"><span class="num">05</span><h3>Support &amp; Maintenance</h3><p>We keep it updated, secure and improving over time.</p></div></li>
+        </ol>
+    </div>
+</section>
+
+<!-- CHAPTERS MARQUEE -->
+<section id="chapters" aria-label="JCI chapters">
+    <div class="container">
+        <div class="section-head text-center mx-auto reveal">
+            <span class="kicker">Chapters</span>
+            <h2>Our Fellow Chapters</h2>
+        </div>
+    </div>
+    <div class="marquee">
+        <div class="marquee-track">
+            <div class="marquee-group">
+                <span class="chip">JCI TANZA</span>
+                <span class="chip">JCI NOVELETA</span>
+                <span class="chip">JCI BACOOR</span>
+                <span class="chip">JCI KAWIT</span>
+                <span class="chip">JCI DASMARIÑAS</span>
+                <span class="chip">JCI ROSARIO</span>
+                <span class="chip">JCI CAVITE CITY</span>
+            </div>
+            <!-- duplicate group for a seamless loop; keep identical to the one above -->
+            <div class="marquee-group" aria-hidden="true" data-nosearch>
+                <span class="chip">JCI TANZA</span>
+                <span class="chip">JCI NOVELETA</span>
+                <span class="chip">JCI BACOOR</span>
+                <span class="chip">JCI KAWIT</span>
+                <span class="chip">JCI DASMARIÑAS</span>
+                <span class="chip">JCI ROSARIO</span>
+                <span class="chip">JCI CAVITE CITY</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="alt">
+    <div class="container">
+        <div class="section-head text-center mx-auto reveal">
+            <span class="kicker">Contact</span>
+            <h2>Let’s Connect</h2>
+            <p class="mt-3">Have a question or want to join us? Send a message and we’ll get back to you soon.</p>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-lg-5 d-flex flex-column gap-3 reveal">
+                <a class="c-card" href="tel:+1234567890">
+                    <span class="ico"><i class="bi bi-telephone"></i></span>
+                    <span><small>Phone</small><strong>+123-456-7890</strong></span>
+                </a>
+                <a class="c-card" href="mailto:hello@reallygreatsite.com">
+                    <span class="ico"><i class="bi bi-envelope"></i></span>
+                    <span><small>Email</small><strong>hello@reallygreatsite.com</strong></span>
+                </a>
+                <a class="c-card" href="https://www.facebook.com/" target="_blank" rel="noopener">
+                    <span class="ico"><i class="bi bi-facebook"></i></span>
+                    <span><small>Facebook</small><strong>facebook.com/your-page</strong></span>
+                </a>
+                <div class="c-card">
+                    <span class="ico"><i class="bi bi-geo-alt"></i></span>
+                    <span><small>Address</small><strong>123 Anywhere St., Imus, Cavite, Philippines</strong></span>
+                </div>
+            </div>
+
+            <div class="col-lg-7 reveal">
+                <!-- To receive real messages: set action="https://formspree.io/f/YOUR_ID" method="POST" and remove the demo JS handler -->
+                <form class="c-form needs-validation" id="contactForm" novalidate>
+                    <h3>Send us a message</h3>
+                    <div class="row g-3">
+                        <div class="col-sm-6">
+                            <label for="cName" class="form-label">Name</label>
+                            <input type="text" class="form-control" id="cName" name="name" placeholder="Your name" autocomplete="name" required>
+                            <div class="invalid-feedback">Please enter your name.</div>
+                        </div>
+                        <div class="col-sm-6">
+                            <label for="cEmail" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="cEmail" name="email" placeholder="you@example.com" autocomplete="email" required>
+                            <div class="invalid-feedback">Please enter a valid email.</div>
+                        </div>
+                        <div class="col-12">
+                            <label for="cMsg" class="form-label">Message</label>
+                            <textarea class="form-control" id="cMsg" name="message" rows="5" placeholder="How can we help?" required></textarea>
+                            <div class="invalid-feedback">Please write a message.</div>
+                        </div>
+                        <div class="col-12">
+                            <button class="btn btn-primary btn-lg px-4" type="submit">SEND MESSAGE</button>
+                        </div>
+                    </div>
+                    <p class="form-msg mt-3 mb-0" id="contactMsg" role="status"></p>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+</main>
+
+<footer>
+    <div class="container">
+        <div class="socials mb-3">
+            <a href="https://www.facebook.com/" target="_blank" rel="noopener" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+            <a href="https://www.instagram.com/" target="_blank" rel="noopener" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+            <a href="https://www.youtube.com/" target="_blank" rel="noopener" aria-label="YouTube"><i class="bi bi-youtube"></i></a>
+            <a href="mailto:hello@reallygreatsite.com" aria-label="Email"><i class="bi bi-envelope"></i></a>
+        </div>
+        <div>&copy; 2027 JCI Imus. All rights reserved.</div>
+    </div>
+</footer>
+
+<!-- Back to top -->
+<button id="toTop" class="btn btn-primary" type="button" aria-label="Back to top"><i class="bi bi-arrow-up"></i></button>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Chatbot: edit faq.js to change its answers -->
+<script src="faq.js"></script>
+<script src="chatbot.js"></script>
+<script>
+    // ---------- Site search: highlights matches and scrolls to the first one ----------
+    (function () {
+        const form = document.getElementById('siteSearch');
+        const input = document.getElementById('searchInput');
+        const status = document.getElementById('searchStatus');
+        const main = document.querySelector('main');
+        let statusTimer;
+
+        function say(msg) {
+            status.textContent = msg;
+            status.classList.remove('d-none');
+            clearTimeout(statusTimer);
+            statusTimer = setTimeout(() => status.classList.add('d-none'), 3500);
+        }
+        function clearMarks() {
+            main.querySelectorAll('mark.search-hit').forEach(m => m.replaceWith(document.createTextNode(m.textContent)));
+            main.normalize();
+        }
+        function highlight(query) {
+            const re = new RegExp(query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi');
+            const walker = document.createTreeWalker(main, NodeFilter.SHOW_TEXT, {
+                acceptNode(n) {
+                    if (!n.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
+                    if (n.parentElement.closest('script, style, textarea, [data-nosearch]')) return NodeFilter.FILTER_REJECT;
+                    return NodeFilter.FILTER_ACCEPT;
+                }
+            });
+            const nodes = [];
+            while (walker.nextNode()) nodes.push(walker.currentNode);
+
+            const hits = [];
+            nodes.forEach(node => {
+                const text = node.nodeValue;
+                re.lastIndex = 0;
+                if (!re.test(text)) return;
+                re.lastIndex = 0;
+                const frag = document.createDocumentFragment();
+                let last = 0, m;
+                while ((m = re.exec(text))) {
+                    frag.append(text.slice(last, m.index));
+                    const mark = document.createElement('mark');
+                    mark.className = 'search-hit';
+                    mark.textContent = m[0];
+                    frag.append(mark);
+                    hits.push(mark);
+                    last = m.index + m[0].length;
+                }
+                frag.append(text.slice(last));
+                node.replaceWith(frag);
+            });
+            return hits;
+        }
+
+        form.addEventListener('submit', e => {
+            e.preventDefault();
+            const q = input.value.trim();
+            clearMarks();
+            if (!q) { status.classList.add('d-none'); return; }
+            const hits = highlight(q);
+            if (!hits.length) { say('No results for “' + q + '”.'); return; }
+            hits[0].closest('.reveal')?.classList.add('in');
+            hits[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
+            say(hits.length + ' match' + (hits.length > 1 ? 'es' : '') + ' for “' + q + '”.');
+            const nav = document.getElementById('navContent');
+            if (nav.classList.contains('show')) bootstrap.Collapse.getOrCreateInstance(nav).hide();
+        });
+        input.addEventListener('input', () => { if (!input.value) { clearMarks(); status.classList.add('d-none'); } });
+    })();
+
+    // close mobile menu after clicking a link
+    document.querySelectorAll('#navContent .nav-link:not(.dropdown-toggle), #navContent .dropdown-item').forEach(a => {
+        a.addEventListener('click', () => {
+            const nav = document.getElementById('navContent');
+            if (nav.classList.contains('show')) bootstrap.Collapse.getOrCreateInstance(nav).hide();
+        });
+    });
+
+    // navbar shadow after scrolling + back-to-top button
+    (function () {
+        const nav = document.getElementById('mainNav');
+        const top = document.getElementById('toTop');
+        function onScroll() {
+            nav.classList.toggle('scrolled', window.scrollY > 20);
+            top.classList.toggle('show', window.scrollY > 500);
+        }
+        window.addEventListener('scroll', onScroll, { passive: true });
+        top.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+        onScroll();
+    })();
+
+    // scroll reveal animation + animated stat counters
+    (function () {
+        const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const els = document.querySelectorAll('.reveal');
+
+        function count(el) {
+            const target = +el.dataset.count, suffix = el.dataset.suffix || '';
+            if (reduce) { el.textContent = target.toLocaleString() + suffix; return; }
+            const dur = 1400, start = performance.now();
+            (function tick(now) {
+                const p = Math.min((now - start) / dur, 1);
+                el.textContent = Math.round(target * (1 - Math.pow(1 - p, 3))).toLocaleString() + (p === 1 ? suffix : '');
+                if (p < 1) requestAnimationFrame(tick);
+            })(start);
+        }
+
+        if (reduce || !('IntersectionObserver' in window)) {
+            els.forEach(el => el.classList.add('in'));
+            document.querySelectorAll('[data-count]').forEach(count);
+            return;
+        }
+        const io = new IntersectionObserver(entries => {
+            entries.forEach(en => {
+                if (!en.isIntersecting) return;
+                en.target.classList.add('in');
+                en.target.querySelectorAll('[data-count]').forEach(count);
+                io.unobserve(en.target);
+            });
+        }, { threshold: 0.12 });
+        els.forEach(el => io.observe(el));
+    })();
+
+    // contact form (Bootstrap validation, demo only)
+    document.getElementById('contactForm').addEventListener('submit', e => {
+        e.preventDefault();
+        const f = e.target, msg = document.getElementById('contactMsg');
+        f.classList.add('was-validated');
+        if (!f.checkValidity()) { msg.className = 'form-msg mt-3 mb-0 text-danger'; msg.textContent = 'Please fill in all fields.'; return; }
+        msg.className = 'form-msg mt-3 mb-0 text-success';
+        msg.textContent = 'Thanks! Your message has been sent.';
+        f.reset(); f.classList.remove('was-validated');
+    });
+
+    // officers carousel
+    (function () {
+        const root = document.getElementById('officers');
+        const track = root.querySelector('.car-track');
+        const cards = [...track.children];
+        const dotsBox = root.querySelector('.car-dots');
+        const n = cards.length;
+        let idx = 0, timer = null, ticking = false;
+
+        const dots = cards.map((_, i) => {
+            const d = document.createElement('button');
+            d.type = 'button';
+            d.setAttribute('aria-label', 'Go to officer ' + (i + 1));
+            d.addEventListener('click', () => go(i));
+            dotsBox.appendChild(d);
+            return d;
+        });
+
+        function nearest() {
+            const mid = track.scrollLeft + track.clientWidth / 2;
+            let best = 0, bestDist = Infinity;
+            cards.forEach((c, i) => {
+                const dist = Math.abs(c.offsetLeft + c.offsetWidth / 2 - mid);
+                if (dist < bestDist) { bestDist = dist; best = i; }
+            });
+            return best;
+        }
+        function update() {
+            idx = nearest();
+            cards.forEach((c, i) => c.classList.toggle('is-active', i === idx));
+            dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+        }
+        function go(i) {
+            i = (i + n) % n;
+            const c = cards[i];
+            track.scrollTo({ left: c.offsetLeft + c.offsetWidth / 2 - track.clientWidth / 2, behavior: 'smooth' });
+        }
+
+        track.addEventListener('scroll', () => {
+            if (ticking) return;
+            ticking = true;
+            requestAnimationFrame(() => { update(); ticking = false; });
+        });
+        root.querySelector('.prev').addEventListener('click', () => go(idx - 1));
+        root.querySelector('.next').addEventListener('click', () => go(idx + 1));
+        cards.forEach((c, i) => c.addEventListener('click', () => go(i)));
+        root.addEventListener('keydown', e => {
+            if (e.key === 'ArrowLeft') go(idx - 1);
+            if (e.key === 'ArrowRight') go(idx + 1);
+        });
+        window.addEventListener('resize', update);
+
+        const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        function start() { if (!reduce && !timer) timer = setInterval(() => go(idx + 1), 3500); }
+        function stop() { clearInterval(timer); timer = null; }
+        ['mouseenter', 'touchstart', 'focusin'].forEach(ev => root.addEventListener(ev, stop, { passive: true }));
+        ['mouseleave', 'focusout'].forEach(ev => root.addEventListener(ev, start));
+        start();
+        update();
+    })();
+</script>
+</body>
+</html>

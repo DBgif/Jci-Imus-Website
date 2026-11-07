@@ -1,0 +1,51 @@
+1. Create the chatbot at Elfsight
+
+Go to elfsight.com and sign up for a free account (no credit card is needed for the free plan).
+Open the AI Chatbot widget from the widget library.
+In the editor, add your knowledge: type in Q&A pairs, text, or upload files. Use the details from your faq.js as a start: how to join, meeting schedule, location, contact info, projects.
+Change the look to match your site: the color (your blue is 
+#0097D7), the icon, the greeting message and the position.
+Test it in the editor’s preview and ask a few questions.
+
+2. Get the embed code
+
+Click Add to website (or Publish) and choose HTML or Custom website if it asks.
+Copy the code it gives you. It usually looks like this, but copy your own because it has your widget’s unique ID:
+html
+<script src="https://elfsightcdn.com/platform.js" async></script>
+<div class="elfsight-app-xxxxxxxx-xxxx-xxxx" data-elfsight-app-lazy></div>
+
+3. Paste it into index.html
+
+Put it just before </body>, and remove our own chatbot files so you don’t get two chat buttons:
+
+html
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- delete these two lines -->
+<!-- <script src="faq.js"></script> -->
+<!-- <script src="chatbot.js"></script> -->
+
+<!-- paste your Elfsight code here -->
+<script src="https://elfsightcdn.com/platform.js" async></script>
+<div class="elfsight-app-xxxxxxxx-xxxx-xxxx" data-elfsight-app-lazy></div>
+
+<script> ...your other site code... </script>
+</body>
+
+Also remove this line from the <head>, since it’s only for our chatbot:
+
+html
+<link rel="stylesheet" href="chatbot.css">
+
+4. Upload and test
+
+Save the file, upload it to your host (for example GitHub Pages), and refresh with Ctrl+F5.
+The Elfsight chat button should appear in a corner. Test it on your live site and on a phone.
+If nothing appears, check that the code was pasted exactly, that you didn’t add it inside another <script> tag, and that the widget is published in your Elfsight dashboard.
+
+Free plan warning: the free plan allows only 50 messages and 200 page views a month, and going over the view limit turns the widget off until the next month. Check your usage in the dashboard. If your site gets more visitors, the $5 Basic plan raises this to 300 messages and 5,000 views.
+
+To keep our bot as a backup: you don’t have to remove it. Elfsight’s button and ours would both show, so for a clean look I’d use one or the other.
+
+If you’d like, paste the code Elfsight gives you and I’ll place it in index.html for you and remove the old chatbot lines.

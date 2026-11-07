@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Thynk Unlimited</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root { --bg:#242424; --fg:#fff; --muted:#aaa; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-snap-type: y mandatory; scroll-behavior: smooth; }
+  body { background:#111; font-family:'Poppins',sans-serif; color:var(--fg); }
+
+  .slide-wrap { min-height:100vh; display:flex; align-items:center; justify-content:center; scroll-snap-align:center; }
+  .slide {
+    --u: calc(100cqw / 1456);
+    container-type: inline-size;
+    position: relative;
+    width: min(100vw, 177.78vh);
+    aspect-ratio: 16 / 9;
+    background: var(--bg);
+    overflow: hidden;
+  }
+
+  /* frame */
+  .frame {
+    position:absolute; left:calc(var(--u)*82); top:calc(var(--u)*82);
+    width:calc(var(--u)*1292); height:calc(var(--u)*562);
+    border:1px solid #fff; border-radius:calc(var(--u)*40);
+  }
+  /* nav */
+  .nav { position:absolute; left:calc(var(--u)*82); top:calc(var(--u)*82); width:calc(var(--u)*1292); height:calc(var(--u)*89); display:flex; z-index:2; }
+  .brand-bg { width:calc(var(--u)*300); background:#fff; border-radius:calc(var(--u)*45) 0 calc(var(--u)*45) calc(var(--u)*45)/calc(var(--u)*45) 0 0 calc(var(--u)*45); display:flex; align-items:center; padding-left:calc(var(--u)*18); }
+  .brand { background:var(--bg); color:#fff; border-radius:999px; height:calc(var(--u)*55); width:calc(var(--u)*228); display:flex; align-items:center; justify-content:center; font-size:calc(var(--u)*20); white-space:nowrap; }
+  .pills { flex:1; border:1px solid #fff; border-left:none; border-radius:0 calc(var(--u)*45) calc(var(--u)*45) 0; margin-left:calc(var(--u)*-45); display:flex; align-items:center; justify-content:flex-end; gap:calc(var(--u)*14); padding-right:calc(var(--u)*26); background:var(--bg); }
+  .pills a { text-decoration:none; color:#fff; border:1px solid #fff; border-radius:999px; height:calc(var(--u)*50); padding:0 calc(var(--u)*20); display:flex; align-items:center; font-size:calc(var(--u)*20); transition:.2s; }
+  .pills a:hover { background:rgba(255,255,255,.15); }
+  .pills a.active { background:#fff; color:#111; }
+
+  /* footer */
+  .foot { position:absolute; left:calc(var(--u)*82); top:calc(var(--u)*660); width:calc(var(--u)*1292); height:calc(var(--u)*77); background:#fff; color:#111; border-radius:999px; display:flex; align-items:center; justify-content:space-between; padding:0 calc(var(--u)*40) 0 calc(var(--u)*45); font-size:calc(var(--u)*20); }
+
+  /* content area (inside frame, below nav) */
+  .content { position:absolute; left:calc(var(--u)*82); top:calc(var(--u)*171); width:calc(var(--u)*1292); height:calc(var(--u)*473); display:flex; align-items:center; }
+  .center { justify-content:center; text-align:center; }
+
+  h1,h2 { font-weight:600; text-transform:uppercase; letter-spacing:-0.04em; line-height:1.05; }
+  .hero { font-size:calc(var(--u)*92); font-weight:700; }
+  .hero span { color:var(--muted); }
+  h2 { font-size:calc(var(--u)*72); }
+  h3 { font-size:calc(var(--u)*28); font-weight:500; }
+  p { font-size:calc(var(--u)*20); font-weight:300; line-height:1.25; text-align:justify; }
+  .chip { background:#fff; color:#111; border-radius:999px; padding:calc(var(--u)*12) calc(var(--u)*26); font-size:calc(var(--u)*22); white-space:nowrap; display:inline-block; }
+  .divider { width:1px; background:#fff; align-self:center; }
+
+  .ph { background:linear-gradient(135deg,#3a4a63,#8fa3c4 55%,#d9b99b); }
+  .img-card { position:relative; overflow:hidden; border:calc(var(--u)*3) solid #fff; }
+
+  /* slide-specific */
+  .two { width:100%; height:100%; display:flex; align-items:center; }
+  .left { flex:1; padding-left:calc(var(--u)*75); }
+  .left .eyebrow { margin-top:calc(var(--u)*80); margin-bottom:calc(var(--u)*30); }
+  .left p { width:calc(var(--u)*490); }
+  .right { flex:1; display:flex; justify-content:center; align-items:center; }
+
+  .officers { display:flex; gap:calc(var(--u)*16); }
+  .officer { position:relative; width:calc(var(--u)*194); height:calc(var(--u)*356); border-radius:calc(var(--u)*50); overflow:hidden; border:1px solid #fff; }
+  .officer .chip { position:absolute; bottom:calc(var(--u)*20); left:50%; transform:translateX(-50%); }
+  .officer.a { background:linear-gradient(#5b7a99,#2d3e5a); }
+  .officer.b { background:linear-gradient(#8a6a58,#2a3b57); }
+  .officer.c { background:linear-gradient(#aeb4bd,#3a3a46); }
+  .avatar { position:absolute; left:50%; top:calc(var(--u)*45); width:calc(var(--u)*105); height:calc(var(--u)*135); transform:translateX(-50%); background:#e3b896; border-radius:50% 50% 45% 45%; box-shadow:0 calc(var(--u)*150) 0 calc(var(--u)*30) #1d2a44; }
+
+  .mv { width:100%; display:flex; justify-content:center; gap:calc(var(--u)*110); padding:0 calc(var(--u)*100); align-items:center; }
+  .mv > div { width:calc(var(--u)*420); }
+  .mv h3 { font-size:calc(var(--u)*26); margin-bottom:calc(var(--u)*22); }
+  .mv .divider { height:calc(var(--u)*172); }
+
+  .services-img { width:calc(var(--u)*490); height:calc(var(--u)*366); border-radius:calc(var(--u)*50); position:relative; }
+  .services-img .tags { position:absolute; left:calc(var(--u)*34); right:calc(var(--u)*34); bottom:calc(var(--u)*38); display:flex; flex-wrap:wrap; gap:calc(var(--u)*10); }
+  .services-img .chip { font-size:calc(var(--u)*21); padding:calc(var(--u)*11) calc(var(--u)*24); }
+
+  .why-list { display:flex; flex-direction:column; gap:calc(var(--u)*18); }
+  .why-item { display:flex; align-items:center; gap:calc(var(--u)*8); }
+  .why-item .letter { width:calc(var(--u)*70); height:calc(var(--u)*50); border:1px solid #fff; border-radius:999px; background:var(--bg); display:flex; align-items:center; justify-content:center; font-size:calc(var(--u)*20); }
+  .why-item .chip { font-size:calc(var(--u)*21); padding:calc(var(--u)*11) calc(var(--u)*22); }
+  .why-item:first-child .letter, .why-item .letter { background:#fff; color:#111; }
+
+  .portfolio-img { width:calc(var(--u)*566); height:calc(var(--u)*338); border-radius:calc(var(--u)*70); margin-right:calc(var(--u)*40); background:linear-gradient(135deg,#e8e8e8,#bdbdbd 50%,#555); }
+
+  .projects { width:100%; display:flex; justify-content:center; gap:calc(var(--u)*32); }
+  .project { position:relative; width:calc(var(--u)*385); height:calc(var(--u)*400); border-radius:calc(var(--u)*80); overflow:hidden; border:calc(var(--u)*3) solid #fff; }
+  .project:nth-child(1) { background:linear-gradient(135deg,#cfd8e3,#8ea1b8); }
+  .project:nth-child(2) { background:linear-gradient(135deg,#243b73,#6b4ea3 70%,#2a2a3a); }
+  .project:nth-child(3) { background:linear-gradient(135deg,#c9b8a6,#8d7660); }
+  .project .chip { position:absolute; bottom:calc(var(--u)*38); left:50%; transform:translateX(-50%); }
+
+  .flow { position:relative; width:100%; height:100%; }
+  .flow h2 { position:absolute; left:calc(var(--u)*90); top:calc(var(--u)*55); }
+  .flow .sub { position:absolute; right:calc(var(--u)*90); top:calc(var(--u)*85); font-size:calc(var(--u)*26); font-weight:500; }
+  .step { position:absolute; }
+  .flow svg { position:absolute; inset:0; width:100%; height:100%; }
+
+  .contact-list { margin-top:calc(var(--u)*30); display:flex; flex-direction:column; gap:calc(var(--u)*14); }
+  .contact-list div { display:flex; align-items:center; gap:calc(var(--u)*14); font-size:calc(var(--u)*19); }
+  .ico { width:calc(var(--u)*32); height:calc(var(--u)*32); background:#fff; border-radius:50%; flex:none; }
+  .team-img { width:calc(var(--u)*600); height:calc(var(--u)*364); border-radius:calc(var(--u)*70); background:linear-gradient(135deg,#6b3f20,#a8662f 50%,#e0c9a8); margin-right:calc(var(--u)*0); }
+
+  .hint { position:fixed; bottom:12px; right:16px; font-size:12px; opacity:.5; color:#fff; font-family:sans-serif; }
+</style>
+</head>
+<body>
+
+<!-- 01 HOME -->
+<div class="slide-wrap" id="home"><section class="slide">
+  <div class="frame"></div>
+  <header class="nav" data-brand="Thynk Unlimited" data-active="Home"></header>
+  <div class="content center"><h1 class="hero">Empowering<br><span>Brands</span> Through<br>Web Development</h1></div>
+  <footer class="foot"><span>INNOVATIVE &amp; SCALABLE DIGITAL SOLUTIONS</span><span>01</span></footer>
+</section></div>
+
+<!-- 02 OFFICERS (JCI) -->
+<div class="slide-wrap"><section class="slide">
+  <div class="frame"></div>
+  <header class="nav" data-set="jci" data-brand="JCI IMUS WAGAYWAY" data-active="About Us"></header>
+  <div class="content">
+    <div class="two">
+      <div class="left" style="padding-left:calc(var(--u)*76)">
+        <h2 style="font-size:calc(var(--u)*66)">2027 Officers</h2>
+        <h3 style="margin-top:calc(var(--u)*80);font-size:calc(var(--u)*25);line-height:1.4">Learn More About Our Team<br>And What Drives Us Forward.</h3>
+        <p style="margin-top:calc(var(--u)*30);width:calc(var(--u)*468);font-size:calc(var(--u)*19)">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur in faucibus sapien. Vivamus laoreet convallis augue non ullamcorper. Etiam eleifend, turpis finibus vulputate porttitor.</p>
+      </div>
+      <div class="right" style="flex:none;width:calc(var(--u)*680);justify-content:flex-start">
+        <div class="officers">
+          <div class="officer a"><div class="avatar"></div><span class="chip">Neil Tran</span></div>
+          <div class="officer b"><div class="avatar"></div><span class="chip">Chidi Eze</span></div>
+          <div class="officer c"><div class="avatar"></div><span class="chip">Juliana</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer class="foot"><span>INNOVATIVE &amp; SCALABLE DIGITAL SOLUTIONS</span><span>02</span></footer>
+</section></div>
+
+<!-- 03 MISSION & VISION -->
+<div class="slide-wrap"><section class="slide">
+  <div class="frame"></div>
+  <header class="nav" data-brand="Thynk Unlimited" data-active="About Us"></header>
+  <div class="content" style="flex-direction:column;justify-content:center">
+    <h2 style="margin-bottom:calc(var(--u)*55);font-size:calc(var(--u)*66)">Our Mission &amp; Vision</h2>
+    <div class="mv">
+      <div><h3>Mission</h3><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur in faucibus sapien. Vivamus laoreet convallis augue non ullamcorper. Etiam eleifend, turpis finibus vulputate porttitor.</p></div>
+      <div class="divider"></div>
+      <div><h3>Vision</h3><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur in faucibus sapien. Vivamus laoreet convallis augue non ullamcorper. Etiam eleifend, turpis finibus vulputate porttitor.</p></div>
+    </div>
+  </div>
+  <footer class="foot"><span>INNOVATIVE &amp; SCALABLE DIGITAL SOLUTIONS</span><span>03</span></footer>
+</section></div>
+
+<!-- 04 SERVICES -->
+<div class="slide-wrap"><section class="slide">
+  <div class="frame"></div>
+  <header class="nav" data-brand="Thynk Unlimited" data-active="Services"></header>
+  <div class="content">
+    <div class="two">
+      <div class="left" style="padding-left:calc(var(--u)*72)">
+        <h2 style="font-size:calc(var(--u)*66)">Our Services</h2>
+        <h3 style="margin-top:calc(var(--u)*115);font-size:calc(var(--u)*25)">What We Do</h3>
+        <p style="margin-top:calc(var(--u)*22);width:calc(var(--u)*490)">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur in faucibus sapien. Vivamus laoreet convallis augue non ullamcorper. Etiam eleifend, turpis finibus vulputate porttitor.</p>
+      </div>
+      <div class="divider" style="height:calc(var(--u)*350)"></div>
+      <div class="right">
+        <div class="services-img ph img-card">
+          <div class="tags">
+            <span class="chip">Web Development &amp; Maintenance</span>
+            <span class="chip">UI/UX Design</span>
+            <span class="chip">SEO Optimization</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer class="foot"><span>INNOVATIVE &amp; SCALABLE DIGITAL SOLUTIONS</span><span>04</span></footer>
+</section></div>
+
+<!-- 05 WHY CHOOSE US -->
+<div class="slide-wrap"><section class="slide">
+  <div class="frame"></div>
+  <header class="nav" data-brand="Thynk Unlimited" data-active="Portfolio"></header>
+  <div class="content">
+    <div class="two">
+      <div class="left" style="padding-left:calc(var(--u)*76);flex:none;width:calc(var(--u)*680)">
+        <h2 style="font-size:calc(var(--u)*66)">Why Choose Us</h2>
+        <h3 style="margin-top:calc(var(--u)*85);font-size:calc(var(--u)*25)">Why Work With Us</h3>
+        <p style="margin-top:calc(var(--u)*22);width:calc(var(--u)*532)">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur in faucibus sapien. Vivamus laoreet convallis augue non ullamcorper. Etiam eleifend, turpis finibus vulputate porttitor.</p>
+      </div>
+      <div class="divider" style="height:calc(var(--u)*350)"></div>
+      <div class="right" style="justify-content:flex-start;padding-left:calc(var(--u)*55)">
+        <div class="why-list">
+          <div class="why-item"><span class="letter">A</span><span class="chip">Latest Technology</span></div>
+          <div class="why-item"><span class="letter">B</span><span class="chip">Guaranteed Data Security</span></div>
+          <div class="why-item"><span class="letter">C</span><span class="chip">Fast &amp; Transparent Process</span></div>
+          <div class="why-item"><span class="letter">D</span><span class="chip">Attractive And Functional Design</span></div>
+          <div class="why-item"><span class="letter">E</span><span class="chip">Responsive After-Sales Service</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer class="foot"><span>INNOVATIVE &amp; SCALABLE DIGITAL SOLUTIONS</span><span>05</span></footer>
+</section></div>
+
+<!-- 06 PORTFOLIO -->
+<div class="slide-wrap"><section class="slide">
+  <div class="frame"></div>
+  <header class="nav" data-brand="Thynk Unlimited" data-active="Portfolio"></header>
+  <div class="content">
+    <div class="two">
+      <div class="left" style="padding-left:calc(var(--u)*76);flex:none;width:calc(var(--u)*700)">
+        <h2 style="font-size:calc(var(--u)*66)">Our Portfolio</h2>
+        <h3 style="margin-top:calc(var(--u)*85);font-size:calc(var(--u)*25)">Showcasing Our Proudest Digital Creations</h3>
+        <p style="margin-top:calc(var(--u)*22);width:calc(var(--u)*555)">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur in faucibus sapien. Vivamus laoreet convallis augue non ullamcorper. Etiam eleifend, turpis finibus vulputate porttitor.</p>
+      </div>
+      <div class="right" style="justify-content:flex-end"><div class="portfolio-img img-card"></div></div>
+    </div>
+  </div>
+  <footer class="foot"><span>INNOVATIVE &amp; SCALABLE DIGITAL SOLUTIONS</span><span>06</span></footer>
+</section></div>
+
+<!-- 07 PROJECTS (JCI) -->
+<div class="slide-wrap"><section class="slide">
+  <div class="frame"></div>
+  <header class="nav" data-set="jci" data-brand="JCI IMUS WAGAYWAY" data-active="Projects"></header>
+  <div class="content" style="top:calc(var(--u)*171)">
+    <div class="projects" style="margin-top:calc(var(--u)*-8)">
+      <div class="project"><span class="chip">Project 1</span></div>
+      <div class="project"><span class="chip">Project 2</span></div>
+      <div class="project"><span class="chip">Project 3</span></div>
+    </div>
+  </div>
+  <footer class="foot"><span>INNOVATIVE &amp; SCALABLE DIGITAL SOLUTIONS</span><span>07</span></footer>
+</section></div>
+
+<!-- 08 WORKFLOW -->
+<div class="slide-wrap"><section class="slide">
+  <div class="frame"></div>
+  <header class="nav" data-brand="Thynk Unlimited" data-active="Process"></header>
+  <div class="content">
+    <div class="flow">
+      <h2 style="font-size:calc(var(--u)*66)">Our Workflow</h2>
+      <div class="sub">How We Work</div>
+      <svg viewBox="0 0 1292 473" preserveAspectRatio="none" fill="none" stroke="#fff" stroke-width="1.2">
+        <path d="M175 276 V345 Q175 357 187 357 H220"/>
+        <path d="M342 331 V258 Q342 250 350 250 H480"/>
+        <path d="M772 250 H857 Q867 250 867 260 V330"/>
+        <path d="M959 357 H1043 Q1055 357 1055 345 V278"/>
+      </svg>
+      <span class="chip step" style="left:calc(var(--u)*88);top:calc(var(--u)*225)">Consultation</span>
+      <span class="chip step" style="left:calc(var(--u)*220);top:calc(var(--u)*331)">Planning &amp; Design</span>
+      <span class="chip step" style="left:calc(var(--u)*480);top:calc(var(--u)*225)">Development &amp; Testing</span>
+      <span class="chip step" style="left:calc(var(--u)*776);top:calc(var(--u)*331)">Deployment</span>
+      <span class="chip step" style="left:calc(var(--u)*908);top:calc(var(--u)*225)">Support &amp; Maintenance</span>
+    </div>
+  </div>
+  <footer class="foot"><span>INNOVATIVE &amp; SCALABLE DIGITAL SOLUTIONS</span><span>08</span></footer>
+</section></div>
+
+<!-- 09 CONTACT -->
+<div class="slide-wrap"><section class="slide">
+  <div class="frame"></div>
+  <header class="nav" data-brand="Thynk Unlimited" data-active="About Us"></header>
+  <div class="content">
+    <div class="two">
+      <div class="left" style="padding-left:calc(var(--u)*65);flex:none;width:calc(var(--u)*620)">
+        <h2 style="font-size:calc(var(--u)*66)">Let’s Connect</h2>
+        <h3 style="margin-top:calc(var(--u)*85);font-size:calc(var(--u)*25)">Let’s Contact Us!</h3>
+        <div class="contact-list">
+          <div><span class="ico"></span>+123-456-7890</div>
+          <div><span class="ico"></span>hello@reallygreatsite.com</div>
+          <div><span class="ico"></span>www.reallygreatsite.com</div>
+          <div><span class="ico"></span>123 Anywhere St., Any City, State, Country 12345</div>
+        </div>
+      </div>
+      <div class="right" style="justify-content:flex-start"><div class="team-img img-card"></div></div>
+    </div>
+  </div>
+  <footer class="foot"><span>INNOVATIVE &amp; SCALABLE DIGITAL SOLUTIONS</span><span>09</span></footer>
+</section></div>
+
+<!-- 10 THANK YOU -->
+<div class="slide-wrap"><section class="slide">
+  <div class="frame"></div>
+  <header class="nav" data-brand="Thynk Unlimited" data-active="About Us"></header>
+  <div class="content center"><h1 class="hero" style="font-size:calc(var(--u)*100)">Thank You<br>For <span>Attention</span></h1></div>
+  <footer class="foot"><span>INNOVATIVE &amp; SCALABLE DIGITAL SOLUTIONS</span><span>10</span></footer>
+</section></div>
+
+<div class="hint">↑ ↓ or click the menu to navigate</div>
+
+<script>
+  const sets = {
+    main: ['Home','About Us','Services','Portfolio','Process','Contact','Closing'],
+    jci:  ['Home','About Us','Projects','Training','Awards','Partners','Contact']
+  };
+  // where each main-menu item jumps (slide index, 0-based)
+  const targets = { 'Home':0, 'About Us':2, 'Services':3, 'Portfolio':5, 'Process':7, 'Contact':8, 'Closing':9 };
+  const wraps = document.querySelectorAll('.slide-wrap');
+
+  document.querySelectorAll('.nav').forEach(nav => {
+    const set = sets[nav.dataset.set || 'main'];
+    const isJci = nav.dataset.set === 'jci';
+    nav.innerHTML = `<div class="brand-bg"><div class="brand">${nav.dataset.brand}</div></div>
+      <div class="pills">${set.map(n =>
+        `<a href="#" data-n="${n}" class="${n === nav.dataset.active ? 'active' : ''}">${n}</a>`).join('')}</div>`;
+    nav.querySelectorAll('a').forEach(a => a.addEventListener('click', e => {
+      e.preventDefault();
+      const i = isJci ? ({'Home':0,'About Us':1,'Projects':6,'Contact':8}[a.dataset.n]) : targets[a.dataset.n];
+      if (i !== undefined) wraps[i].scrollIntoView({behavior:'smooth'});
+    }));
+  });
+
+  document.addEventListener('keydown', e => {
+    const h = window.innerHeight;
+    const cur = Math.round(window.scrollY / h);
+    if (['ArrowDown','ArrowRight','PageDown',' '].includes(e.key)) { e.preventDefault(); wraps[Math.min(cur+1, wraps.length-1)].scrollIntoView({behavior:'smooth'}); }
+    if (['ArrowUp','ArrowLeft','PageUp'].includes(e.key))          { e.preventDefault(); wraps[Math.max(cur-1, 0)].scrollIntoView({behavior:'smooth'}); }
+  });
+</script>
+</body>
+</html>
